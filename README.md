@@ -104,7 +104,7 @@ Rehearsal on the deployed graph (AuraDB), Gemini 3.8 Flash, 2026-10-06: every re
 
 45/45. The agent never invented a work-order ID, part number or person; when a record does not exist it says so and lists only the IDs it checked.
 
-ADK evaluation (`agent/eval/`): the same cases as an ADK eval set with LLM-judged `final_response_match_v2` and `hallucinations_v1`; run with
+ADK evaluation (`agent/eval/`, results in `docs/eval/adk_eval.md`): the same cases as an ADK eval set, judged by Gemini 3.5 Flash. 7/7 cases pass; `final_response_match_v2` 1.00 on every case, `hallucinations_v1` 1.00 on six cases and 0.86 on the three-turn conversation. Run with
 `adk eval agent/kg_agent agent/eval/reference.evalset.json --config_file_path agent/eval/eval_config.json`.
 
 ## Repository layout
