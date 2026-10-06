@@ -2,8 +2,8 @@
  {
   "scene": "title",
   "file": "audio/title.wav",
-  "seconds": 14.92,
-  "text": "Plant A Maintenance Agent. An AI assistant for factory maintenance that answers with evidence you can trace on a graph. Built with Gemini, the Agent Development Kit and Neo4j on Google Cloud."
+  "seconds": 14.72,
+  "text": "Plant A Maintenance Agent. An ontology-backed AI agent that supports field engineers on the factory floor, and answers with evidence you can trace on a graph. Built with Gemini, the Agent Development Kit and Neo4j on Google Cloud."
  },
  {
   "scene": "problem",
@@ -14,8 +14,8 @@
  {
   "scene": "approach",
   "file": "audio/approach.wav",
-  "seconds": 18.88,
-  "text": "We connect those sources into one knowledge graph and let Gemini walk it. A vector search over the manuals finds where to start. The graph supplies the answer: failure modes ranked by history, the procedure, parts in stock, and who is certified. Every ID in the answer is a node you can inspect."
+  "seconds": 26.48,
+  "text": "We model the plant as an ontology: equipment, components, failure modes, symptoms, work orders, procedures, parts and people, connected in one knowledge graph. A vector search over the manuals finds where to start. The graph supplies the answer, ranked by history, down to the parts in stock and who is certified. Every ID in the answer is a node you can inspect."
  },
  {
   "scene": "demo_q1",
@@ -50,7 +50,7 @@
  {
   "scene": "closing",
   "file": "audio/closing.wav",
-  "seconds": 16.76,
-  "text": "Unplanned downtime costs thousands of dollars an hour, and the knowledge to prevent it is retiring. This runs on the data every plant already has: registers, work orders and manuals, in any language. Try it at the link, and read the code on GitHub."
+  "seconds": 17.52,
+  "text": "Unplanned downtime costs thousands of dollars an hour, and the know-how to prevent it is retiring with the veterans. This runs on the data every plant already has: registers, work orders and manuals, in Japanese or English. Try it at the link, and read the code on GitHub."
  }
 ]

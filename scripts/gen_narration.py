@@ -27,15 +27,15 @@ MODEL = os.getenv("TTS_MODEL", "gemini-3.8-flash-tts")
 VOICE = os.getenv("TTS_VOICE", "Kore")
 
 SCENES: list[tuple[str, str]] = [
-    ("title", "Plant A Maintenance Agent. An AI assistant for factory maintenance that answers with evidence you can trace on a graph. Built with Gemini, the Agent Development Kit and Neo4j on Google Cloud."),
+    ("title", "Plant A Maintenance Agent. An ontology-backed AI agent that supports field engineers on the factory floor, and answers with evidence you can trace on a graph. Built with Gemini, the Agent Development Kit and Neo4j on Google Cloud."),
     ("problem", "Night shift. A cooling pump on line three is vibrating, and the veteran who knows it is off duty. The answer exists, scattered across the equipment register, two years of work orders, the parts inventory and a forty-page manual. Document search alone cannot connect them."),
-    ("approach", "We connect those sources into one knowledge graph and let Gemini walk it. A vector search over the manuals finds where to start. The graph supplies the answer: failure modes ranked by history, the procedure, parts in stock, and who is certified. Every ID in the answer is a node you can inspect."),
+    ("approach", "We model the plant as an ontology: equipment, components, failure modes, symptoms, work orders, procedures, parts and people, connected in one knowledge graph. A vector search over the manuals finds where to start. The graph supplies the answer, ranked by history, down to the parts in stock and who is certified. Every ID in the answer is a node you can inspect."),
     ("demo_q1", "Let's ask. The agent searches the manual, then queries the graph once. Bearing inner ring wear is the most likely cause: six past cases on this pump, procedure P R zero zero one, cited from page one of the manual. Every ID is a chip. Click one, and the evidence graph lights up."),
     ("demo_q2", "A follow-up: did the same model fail this way on other lines? Document search cannot answer this, because those reports never mention P three zero one. The graph crosses through the model node: four cases on line one, one on line two."),
     ("demo_q3", "Then the next action: parts in stock, lead times, and the certified technicians on line three, with how many times each has done the job."),
     ("honesty", "And when there is no record, it says so. No invented work-order numbers."),
     ("technology", "Under the hood: a Google ADK agent on Cloud Run with three read-only tools, Gemini 3.8 Flash, Gemini embeddings in a Neo4j vector index, and a Next.js front end. In rehearsal, forty-five of forty-five reference questions were answered correctly, and the ADK hallucination check scored one point zero."),
-    ("closing", "Unplanned downtime costs thousands of dollars an hour, and the knowledge to prevent it is retiring. This runs on the data every plant already has: registers, work orders and manuals, in any language. Try it at the link, and read the code on GitHub."),
+    ("closing", "Unplanned downtime costs thousands of dollars an hour, and the know-how to prevent it is retiring with the veterans. This runs on the data every plant already has: registers, work orders and manuals, in Japanese or English. Try it at the link, and read the code on GitHub."),
 ]
 
 # No style prefix: gemini-3.8-flash-tts reads any instruction text aloud.

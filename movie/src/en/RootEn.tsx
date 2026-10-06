@@ -1,5 +1,5 @@
 import React from "react";
-import { Composition, Sequence } from "remotion";
+import { Audio, Composition, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
 import narration from "../narration.json";
 import marks from "../marks.json";
 import { ApproachEn, Clip, ClosingEn, ProblemEn, Segment, TechnologyEn, TitleEn } from "./Scenes";
@@ -43,7 +43,7 @@ export const SCENES: { name: string; dur: number; C: React.FC<{ durationInFrames
   { name: "title", dur: frames(secs("title") + TAIL), C: TitleEn },
   { name: "problem", dur: frames(secs("problem") + TAIL), C: ProblemEn },
   { name: "approach", dur: frames(secs("approach") + TAIL), C: ApproachEn },
-  { name: "demo_q1", dur: clipLen(Q1), C: (p) => <Clip {...p} audio="audio/demo_q1.wav" segments={Q1} badge="Live app · screen recording" /> },
+  { name: "demo_q1", dur: clipLen(Q1), C: (p) => <Clip {...p} audio="audio/demo_q1.wav" segments={Q1} badge="Live app · unedited screen recording" /> },
   { name: "demo_q2", dur: clipLen(Q2), C: (p) => <Clip {...p} audio="audio/demo_q2.wav" segments={Q2} /> },
   { name: "demo_q3", dur: clipLen(Q3), C: (p) => <Clip {...p} audio="audio/demo_q3.wav" segments={Q3} /> },
   { name: "honesty", dur: clipLen(E1), C: (p) => <Clip {...p} audio="audio/honesty.wav" segments={E1} /> },
@@ -52,10 +52,19 @@ export const SCENES: { name: string; dur: number; C: React.FC<{ durationInFrames
 ];
 export const TOTAL = SCENES.reduce((a, s) => a + s.dur, 0);
 
+/** Background music under the narration: quiet, fades in at the start and out over the last 5 s. */
+const Bgm: React.FC = () => {
+  const frame = useCurrentFrame();
+  const base = 0.08;
+  const v = interpolate(frame, [0, FPS * 1.5, TOTAL - FPS * 5, TOTAL], [0, base, base, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return <Audio src={staticFile("bgm.m4a")} volume={v} />;
+};
+
 const DemoEn: React.FC = () => {
   let from = 0;
   return (
     <>
+      <Bgm />
       {SCENES.map((s) => {
         const el = (
           <Sequence key={s.name} from={from} durationInFrames={s.dur} name={s.name}>
