@@ -26,4 +26,4 @@ EMBED_DIM = int(os.getenv("EMBED_DIM", "768"))
 
 
 def driver():
-    return GraphDatabase.driver(URI, auth=(USER, PASSWORD))
+    return GraphDatabase.driver(URI, auth=(USER, PASSWORD), notifications_min_severity="OFF")

@@ -1,4 +1,4 @@
-id,name,process
-L1,第1ライン,プレス
-L2,第2ライン,搬送
-L3,第3ライン,冷却ユーティリティ
+id,name,process,nameEn
+L1,第1ライン,プレス,Line 1
+L2,第2ライン,搬送,Line 2
+L3,第3ライン,冷却ユーティリティ,Line 3

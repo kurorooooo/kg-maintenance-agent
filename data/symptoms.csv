@@ -1,16 +1,16 @@
-id,name
-SY-01,振動増大
-SY-02,異音
-SY-03,軸受温度上昇
-SY-04,吐出圧低下
-SY-05,流量低下
-SY-06,漏水・漏液
-SY-07,過電流トリップ
-SY-08,停止・起動不良
-SY-09,焦げ臭
-SY-10,加工精度不良
-SY-11,ベルト蛇行
-SY-12,油漏れ
-SY-13,水位異常
-SY-14,吐出空気圧不足
-SY-15,モーター異常発熱
+id,name,nameEn
+SY-01,振動増大,Increased vibration
+SY-02,異音,Abnormal noise
+SY-03,軸受温度上昇,Bearing temperature rise
+SY-04,吐出圧低下,Discharge pressure drop
+SY-05,流量低下,Flow rate drop
+SY-06,漏水・漏液,Water/liquid leakage
+SY-07,過電流トリップ,Overcurrent trip
+SY-08,停止・起動不良,Start/stop failure
+SY-09,焦げ臭,Burning smell
+SY-10,加工精度不良,Poor machining accuracy
+SY-11,ベルト蛇行,Belt mistracking
+SY-12,油漏れ,Oil leakage
+SY-13,水位異常,Abnormal water level
+SY-14,吐出空気圧不足,Low discharge air pressure
+SY-15,モーター異常発熱,Motor overheating

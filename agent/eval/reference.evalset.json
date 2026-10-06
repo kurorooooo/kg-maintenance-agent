@@ -1,0 +1,236 @@
+{
+ "eval_set_id": "reference_questions",
+ "name": "Plant A reference questions",
+ "eval_cases": [
+  {
+   "eval_id": "q1_p301_vibration_ja",
+   "conversation": [
+    {
+     "invocation_id": "q1_p301_vibration_ja-1",
+     "user_content": {
+      "parts": [
+       {
+        "text": "3号ラインの冷却ポンプP-301で振動が上がっている。考えられる原因と過去の対処は？"
+       }
+      ],
+      "role": "user"
+     },
+     "final_response": {
+      "parts": [
+       {
+        "text": "結論: P-301 の振動増大は主軸ベアリング内輪摩耗（FM-001）が最有力。原因候補: 主軸ベアリング内輪摩耗 過去事例 6 件、インペラ不釣合い 2 件、カップリング芯ずれ 2 件、軸受グリース劣化 2 件。推奨対処: 冷却ポンプ主軸ベアリング交換 PR-001（必要資格 回転機械整備）。根拠: 作業報告 WO-2024-006, WO-2025-015, WO-2025-028, WO-2026-002, WO-2026-015, WO-2026-020、手順 PR-001、手順書 CH-cp-200-002（CP-200 保全マニュアル p.1）、パス P-301 → CP-200 → 主軸ベアリング → 主軸ベアリング内輪摩耗 → WO → PR-001。"
+       }
+      ],
+      "role": "model"
+     },
+     "creation_timestamp": 0.0
+    }
+   ],
+   "creation_timestamp": 0.0,
+   "final_session_state": {}
+  },
+  {
+   "eval_id": "q1_p301_vibration_en",
+   "conversation": [
+    {
+     "invocation_id": "q1_p301_vibration_en-1",
+     "user_content": {
+      "parts": [
+       {
+        "text": "The cooling pump P-301 on line 3 is vibrating more than usual. What are the likely causes and how were they handled before?"
+       }
+      ],
+      "role": "user"
+     },
+     "final_response": {
+      "parts": [
+       {
+        "text": "Conclusion: the most likely cause is main shaft bearing inner ring wear (FM-001). Candidate causes: bearing inner ring wear, past cases 6; impeller imbalance 2; coupling misalignment 2; bearing grease degradation 2. Recommended action: cooling pump main shaft bearing replacement PR-001 (requires 回転機械整備 certification). Evidence: work orders WO-2024-006, WO-2025-015, WO-2025-028, WO-2026-002, WO-2026-015, WO-2026-020; procedure PR-001; manual CH-cp-200-002 (CP-200 maintenance manual p.1); path P-301 → CP-200 → main shaft bearing → FM-001 → WO → PR-001."
+       }
+      ],
+      "role": "model"
+     },
+     "creation_timestamp": 0.0
+    }
+   ],
+   "creation_timestamp": 0.0,
+   "final_session_state": {}
+  },
+  {
+   "eval_id": "q1_q2_q3_conversation",
+   "conversation": [
+    {
+     "invocation_id": "q1_q2_q3_conversation-1",
+     "user_content": {
+      "parts": [
+       {
+        "text": "3号ラインの冷却ポンプP-301で振動が上がっている。考えられる原因と過去の対処は？"
+       }
+      ],
+      "role": "user"
+     },
+     "final_response": {
+      "parts": [
+       {
+        "text": "主軸ベアリング内輪摩耗（FM-001）が最有力で過去事例 6 件。推奨対処は PR-001（回転機械整備）。根拠に WO-2026-020 等の作業報告、PR-001、CH-cp-200-002。"
+       }
+      ],
+      "role": "model"
+     },
+     "creation_timestamp": 0.0
+    },
+    {
+     "invocation_id": "q1_q2_q3_conversation-2",
+     "user_content": {
+      "parts": [
+       {
+        "text": "同じ型式のポンプで同じ症状が出た事例は他ラインにもある？"
+       }
+      ],
+      "role": "user"
+     },
+     "final_response": {
+      "parts": [
+       {
+        "text": "ある。同型 CP-200 の第1ライン P-101 で主軸ベアリング内輪摩耗が 4 件（WO-2024-007, WO-2025-021, WO-2026-008, WO-2026-025）、第2ライン P-201 で 1 件（WO-2025-032）。P-302 は記録なし。パス P-301 → CP-200 ← P-101 ← WO → FM-001。"
+       }
+      ],
+      "role": "model"
+     },
+     "creation_timestamp": 0.0
+    },
+    {
+     "invocation_id": "q1_q2_q3_conversation-3",
+     "user_content": {
+      "parts": [
+       {
+        "text": "その対処に必要な部品の在庫と納期、対応できる技術者は？"
+       }
+      ],
+      "role": "user"
+     },
+     "final_response": {
+      "parts": [
+       {
+        "text": "PR-001 に必要な部品: PT-001 深溝玉軸受 6306ZZ 必要 2・在庫 4・納期 3 日（東和ベアリング商会）、PT-002 軸受グリース EP2 必要 1・在庫 12・納期 2 日、PT-003 メカニカルシール 必要 1・在庫 2・納期 14 日（北陽ポンプ工業）。技術者: 回転機械整備の資格を持つ 真壁 美咲 T-05（第3ライン、PR-001 実績 3 回）、大槌 健 T-03（第3ライン、2 回）、佐伯 恒夫 T-01（第1ライン、5 回）、乾 修一 T-06（第2ライン、1 回）。"
+       }
+      ],
+      "role": "model"
+     },
+     "creation_timestamp": 0.0
+    }
+   ],
+   "creation_timestamp": 0.0,
+   "final_session_state": {}
+  },
+  {
+   "eval_id": "q4_bearing_stops_last_year",
+   "conversation": [
+    {
+     "invocation_id": "q4_bearing_stops_last_year-1",
+     "user_content": {
+      "parts": [
+       {
+        "text": "直近1年でベアリング起因の停止が多い設備はどこ？"
+       }
+      ],
+      "role": "user"
+     },
+     "final_response": {
+      "parts": [
+       {
+        "text": "P-301（3号ライン冷却ポンプ）が最多で 3 件・停止時間 935 分。次いで P-101 2 件 646 分、CV-201 2 件 521 分。CT-301、P-201、CV-203、CV-101 が各 1 件。根拠は作業報告 ID の列挙。"
+       }
+      ],
+      "role": "model"
+     },
+     "creation_timestamp": 0.0
+    }
+   ],
+   "creation_timestamp": 0.0,
+   "final_session_state": {}
+  },
+  {
+   "eval_id": "d2_nu320_keyword",
+   "conversation": [
+    {
+     "invocation_id": "d2_nu320_keyword-1",
+     "user_content": {
+      "parts": [
+       {
+        "text": "NU320 はどの設備のどの部品？"
+       }
+      ],
+      "role": "user"
+     },
+     "final_response": {
+      "parts": [
+       {
+        "text": "NU320 は機械式プレス PM-800 のフライホイール軸受（フライホイールベアリング）。使用設備は PR-101 と PR-102。部品 PT の在庫 1・納期 14 日。根拠に手順書 PM-800 のチャンク ID。"
+       }
+      ],
+      "role": "model"
+     },
+     "creation_timestamp": 0.0
+    }
+   ],
+   "creation_timestamp": 0.0,
+   "final_session_state": {}
+  },
+  {
+   "eval_id": "e1_p302_no_bearing_failure",
+   "conversation": [
+    {
+     "invocation_id": "e1_p302_no_bearing_failure-1",
+     "user_content": {
+      "parts": [
+       {
+        "text": "P-302 でベアリング起因の故障はあった？"
+       }
+      ],
+      "role": "user"
+     },
+     "final_response": {
+      "parts": [
+       {
+        "text": "記録なし。P-302 にベアリング（category=bearing）起因の作業報告はない。P-302 の作業報告はカップリング芯ずれ 1 件と軸受グリース劣化 1 件（WO-2025-026、PR-002）のみ。"
+       }
+      ],
+      "role": "model"
+     },
+     "creation_timestamp": 0.0
+    }
+   ],
+   "creation_timestamp": 0.0,
+   "final_session_state": {}
+  },
+  {
+   "eval_id": "e2_unknown_equipment",
+   "conversation": [
+    {
+     "invocation_id": "e2_unknown_equipment-1",
+     "user_content": {
+      "parts": [
+       {
+        "text": "P-401 の状態は？"
+       }
+      ],
+      "role": "user"
+     },
+     "final_response": {
+      "parts": [
+       {
+        "text": "記録なし。設備 ID P-401 はナレッジグラフに存在しない。登録されている冷却ポンプは P-101、P-201、P-301、P-302。作業報告 ID を推測して挙げない。"
+       }
+      ],
+      "role": "model"
+     },
+     "creation_timestamp": 0.0
+    }
+   ],
+   "creation_timestamp": 0.0,
+   "final_session_state": {}
+  }
+ ],
+ "creation_timestamp": 0.0
+}

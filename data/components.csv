@@ -1,41 +1,41 @@
-id,modelId,name,position,replaceCycleMonths,partId
-CP-200-BRG,CP-200,主軸ベアリング,駆動側・反駆動側,24,PT-001
-CP-200-HSG,CP-200,軸受ハウジング（グリース潤滑）,駆動側,12,PT-002
-CP-200-SEAL,CP-200,メカニカルシール,軸封部,18,PT-003
-CP-200-IMP,CP-200,インペラ,ケーシング内,60,PT-004
-CP-200-CPL,CP-200,カップリング,モーター〜ポンプ間,36,PT-005
-CP-200-MTR,CP-200,駆動モーター,駆動側,120,PT-006
-CP-200-STR,CP-200,吸込ストレーナ,吸込配管,6,PT-007
-CP-200-PG,CP-200,吐出圧力計,吐出配管,36,PT-008
-PM-800-SLD,PM-800,スライドガイド,スライド四隅,60,PT-010
-PM-800-CLB,PM-800,クラッチブレーキ,クランク軸端,48,PT-011
-PM-800-FWB,PM-800,フライホイールベアリング,フライホイール軸,60,PT-012
-PM-800-HYD,PM-800,油圧ユニット,機側,36,PT-013
-PM-800-CLP,PM-800,金型クランプ,ボルスタ,24,PT-014
-PM-800-PES,PM-800,安全光電センサ,前面開口部,36,PT-015
-PM-800-LUB,PM-800,集中潤滑ポンプ,機側,24,PT-016
-PM-800-MTR,PM-800,主モーター,フレーム上部,120,PT-017
-BC-50-MTR,BC-50,駆動モーター,ヘッド側,96,PT-020
-BC-50-GBX,BC-50,減速機,ヘッド側,72,PT-021
-BC-50-BLT,BC-50,搬送ベルト,全長,24,PT-022
-BC-50-ROL,BC-50,キャリアローラ,搬送面下,36,PT-023
-BC-50-TPB,BC-50,テールプーリーベアリング,テール側,24,PT-001
-BC-50-TEN,BC-50,テンショナ,テール側,36,PT-024
-BC-50-PES,BC-50,位置検出光電センサ,搬出端,36,PT-015
-BC-50-INV,BC-50,制御盤インバータ,制御盤内,84,PT-025
-CT-10-NOZ,CT-10,散水ノズル,上部散水槽,12,PT-030
-CT-10-FIL,CT-10,充填材,本体中段,60,PT-031
-CT-10-FAN,CT-10,ファンモーター,上部ファン,96,PT-032
-CT-10-FBR,CT-10,ファン軸ベアリング,上部ファン軸,24,PT-033
-CT-10-CPM,CT-10,循環ポンプ,下部水槽横,60,PT-034
-CT-10-FLT,CT-10,水位フロート,下部水槽,24,PT-035
-CT-10-CHM,CT-10,薬注ポンプ,下部水槽横,36,PT-036
-CT-10-STR,CT-10,補給水ストレーナ,補給水配管,6,PT-007
-AC-75-AFL,AC-75,吸気フィルタ,吸気口,6,PT-040
-AC-75-AEN,AC-75,エアエンド,本体中央,60,PT-041
-AC-75-SEP,AC-75,オイルセパレータ,レシーバタンク上,12,PT-042
-AC-75-FAN,AC-75,冷却ファン,背面,48,PT-043
-AC-75-SOL,AC-75,吸気電磁弁,吸気部,36,PT-044
-AC-75-PSW,AC-75,圧力スイッチ,レシーバタンク,36,PT-045
-AC-75-DRN,AC-75,ドレントラップ,レシーバタンク下,12,PT-046
-AC-75-MTR,AC-75,主モーター,本体側面,120,PT-047
+id,modelId,name,position,replaceCycleMonths,partId,nameEn
+CP-200-BRG,CP-200,主軸ベアリング,駆動側・反駆動側,24,PT-001,Main shaft bearing
+CP-200-HSG,CP-200,軸受ハウジング（グリース潤滑）,駆動側,12,PT-002,Bearing housing (grease lubricated)
+CP-200-SEAL,CP-200,メカニカルシール,軸封部,18,PT-003,Mechanical seal
+CP-200-IMP,CP-200,インペラ,ケーシング内,60,PT-004,Impeller
+CP-200-CPL,CP-200,カップリング,モーター〜ポンプ間,36,PT-005,Coupling
+CP-200-MTR,CP-200,駆動モーター,駆動側,120,PT-006,Drive motor
+CP-200-STR,CP-200,吸込ストレーナ,吸込配管,6,PT-007,Suction strainer
+CP-200-PG,CP-200,吐出圧力計,吐出配管,36,PT-008,Discharge pressure gauge
+PM-800-SLD,PM-800,スライドガイド,スライド四隅,60,PT-010,Slide guide
+PM-800-CLB,PM-800,クラッチブレーキ,クランク軸端,48,PT-011,Clutch brake
+PM-800-FWB,PM-800,フライホイールベアリング,フライホイール軸,60,PT-012,Flywheel bearing
+PM-800-HYD,PM-800,油圧ユニット,機側,36,PT-013,Hydraulic unit
+PM-800-CLP,PM-800,金型クランプ,ボルスタ,24,PT-014,Die clamp
+PM-800-PES,PM-800,安全光電センサ,前面開口部,36,PT-015,Safety photoelectric sensor
+PM-800-LUB,PM-800,集中潤滑ポンプ,機側,24,PT-016,Centralized lubrication pump
+PM-800-MTR,PM-800,主モーター,フレーム上部,120,PT-017,Main motor
+BC-50-MTR,BC-50,駆動モーター,ヘッド側,96,PT-020,Drive motor
+BC-50-GBX,BC-50,減速機,ヘッド側,72,PT-021,Gearbox
+BC-50-BLT,BC-50,搬送ベルト,全長,24,PT-022,Conveyor belt
+BC-50-ROL,BC-50,キャリアローラ,搬送面下,36,PT-023,Carrying roller
+BC-50-TPB,BC-50,テールプーリーベアリング,テール側,24,PT-001,Tail pulley bearing
+BC-50-TEN,BC-50,テンショナ,テール側,36,PT-024,Tensioner
+BC-50-PES,BC-50,位置検出光電センサ,搬出端,36,PT-015,Photoelectric position sensor
+BC-50-INV,BC-50,制御盤インバータ,制御盤内,84,PT-025,Control panel inverter
+CT-10-NOZ,CT-10,散水ノズル,上部散水槽,12,PT-030,Spray nozzle
+CT-10-FIL,CT-10,充填材,本体中段,60,PT-031,Fill material
+CT-10-FAN,CT-10,ファンモーター,上部ファン,96,PT-032,Fan motor
+CT-10-FBR,CT-10,ファン軸ベアリング,上部ファン軸,24,PT-033,Fan shaft bearing
+CT-10-CPM,CT-10,循環ポンプ,下部水槽横,60,PT-034,Circulation pump
+CT-10-FLT,CT-10,水位フロート,下部水槽,24,PT-035,Water level float
+CT-10-CHM,CT-10,薬注ポンプ,下部水槽横,36,PT-036,Chemical dosing pump
+CT-10-STR,CT-10,補給水ストレーナ,補給水配管,6,PT-007,Makeup water strainer
+AC-75-AFL,AC-75,吸気フィルタ,吸気口,6,PT-040,Air intake filter
+AC-75-AEN,AC-75,エアエンド,本体中央,60,PT-041,Air end
+AC-75-SEP,AC-75,オイルセパレータ,レシーバタンク上,12,PT-042,Oil separator
+AC-75-FAN,AC-75,冷却ファン,背面,48,PT-043,Cooling fan
+AC-75-SOL,AC-75,吸気電磁弁,吸気部,36,PT-044,Intake solenoid valve
+AC-75-PSW,AC-75,圧力スイッチ,レシーバタンク,36,PT-045,Pressure switch
+AC-75-DRN,AC-75,ドレントラップ,レシーバタンク下,12,PT-046,Drain trap
+AC-75-MTR,AC-75,主モーター,本体側面,120,PT-047,Main motor

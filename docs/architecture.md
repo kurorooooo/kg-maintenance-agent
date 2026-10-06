@@ -1,116 +1,80 @@
-# システムアーキテクチャ
+# システムアーキテクチャ（Google Cloud 版）
+
+2026-10-06 更新。AI Builder Cup 2026 提出構成。旧構成（Claude Desktop ＋ MCP）はブランチ `legacy/claude-mcp` と docs/google_tasks.md の棚卸し表を参照。
 
 ## 全体図
 
 ```mermaid
 flowchart LR
-  subgraph demo[デモ中に動く経路]
-    U[保全担当者<br/>発表者] -->|質問| CD[Claude Desktop<br/>Claude Code]
-    CD -->|MCP stdio| MCP1[mcp-neo4j-cypher<br/>読み取り専用モード<br/>get_neo4j_schema / read_neo4j_cypher]
-    CD -->|MCP stdio| MCP2[search_manual<br/>自作 FastMCP<br/>multilingual-e5-small]
-    MCP1 -->|Bolt 7687| DB[(Neo4j 5.26 Community<br/>Docker Compose)]
-    MCP2 -->|Bolt 7687<br/>db.index.vector.queryNodes| DB
-    DB -->|HTTP 7474| NB[Neo4j Browser<br/>根拠パスの可視化]
-    U -.->|並べて見る| NB
-  end
-
-  subgraph prep[事前準備の経路]
-    CSV[data/*.csv<br/>手書きマスタ] --> GEN[scripts/gen_workorders.py] --> WO[data/workorders.csv]
-    CSV --> LOAD[scripts/load.py<br/>制約・インデックス作成<br/>ノード・リレーション投入]
-    WO --> LOAD
-    MAN[manuals/*.md<br/>合成手順書] --> EMB[scripts/embed.py<br/>チャンク化・埋め込み<br/>MENTIONS 紐づけ]
-    LOAD --> DB
-    EMB --> DB
-  end
+  U[保全担当者 / 審査員<br/>ブラウザ] -->|HTTPS| WEB[Cloud Run: kg-web<br/>Next.js 16 App Router<br/>チャット・作業記録・根拠グラフ]
+  WEB -->|ID トークン（kg-web-sa）<br/>POST /run_sse（SSE）| AGENT[Cloud Run: kg-agent<br/>Google ADK 2.11（Python）<br/>LlmAgent + 関数ツール 3 本]
+  AGENT -->|Gemini 3.8 Flash（global）<br/>gemini-embedding-001| VAI[Vertex AI]
+  AGENT -->|read_neo4j_cypher<br/>search_manual / search_manual_keyword<br/>読み取り専用・20 秒タイムアウト| DB[(Neo4j AuraDB Free<br/>295 ノード・901 関係<br/>Chunk 43 件・768 次元ベクトル索引)]
+  WEB -->|読み取り Cypher<br/>根拠パス・初期グラフ| DB
+  SM[Secret Manager<br/>neo4j-uri / username / password / database] --> AGENT
+  SM --> WEB
+  SCH[Cloud Scheduler<br/>03:00 / 15:00 JST<br/>GET /warmup] --> AGENT
+  LOG[Cloud Logging] --- AGENT
 ```
 
 ## コンポーネント
 
-| # | コンポーネント | 実体 | 役割 | 自作か |
-| --- | --- | --- | --- | --- |
-| 1 | Neo4j | neo4j:5.26-community（docker-compose.yml） | グラフ本体。ベクトル索引・全文索引を内蔵 | 既製 |
-| 2 | Neo4j Browser | Neo4j 同梱、http://localhost:7474 | 根拠パスの可視化。queries/paths.cypher を貼って表示 | 既製 |
-| 3 | mcp-neo4j-cypher | v0.6.0、venv にインストール。mcp/neo4j_cypher/server.py から python 直起動で `--read-only`（Desktop がシェバン起動を権限エラーで落とすため） | Claude からの Cypher 実行とスキーマ取得 | 既製 |
-| 4 | search_manual | mcp/search_manual/server.py（FastMCP） | 質問文を e5 で埋め込み、Chunk をベクトル検索し MENTIONS 先の部品・故障モードを返す | 自作 |
-| 5 | Claude Desktop / Claude Code | MCP クライアント | エージェント本体。システムプロンプト（docs/prompt.md）で回答手順と根拠形式を固定 | 既製 |
-| 6 | データ生成 | scripts/gen_workorders.py | 作業報告80件を分布設計どおりに生成 | 自作 |
-| 7 | 投入 | scripts/load.py | 制約・インデックス作成、CSV 投入（Python ドライバ、冪等） | 自作 |
-| 8 | 埋め込み | scripts/embed.py | 手順書をチャンク化し e5 で埋め込み、Chunk ノードと MENTIONS を投入 | 自作 |
+| # | コンポーネント | 実体 | 役割 |
+| --- | --- | --- | --- |
+| 1 | kg-web | `web/`。Next.js 16（standalone）を Cloud Run で公開。URL https://kg-web-7ikzkb2evq-an.a.run.app | 質問入力、エージェントの SSE を中継して逐次表示、回答中の ID をチップ化、根拠部分グラフを d3-force ＋ SVG で描画、EN/JA 切替 |
+| 2 | kg-agent | `agent/`。ADK の FastAPI アプリ（`/run_sse`、セッション API）＋ `/warmup`。認証必須（kg-web-sa のみ起動可） | Gemini がツールを呼んでグラフを辿り、固定フォーマット（結論 / 原因候補 / 推奨対処 / 根拠）で回答 |
+| 3 | ツール read_neo4j_cypher | `agent/kg_agent/tools.py` | 読み取り専用 Cypher。CREATE/MERGE/SET/DELETE/DROP/プロシージャ呼び出しは実行前に拒否。最大 50 行、20 秒でタイムアウト |
+| 4 | ツール search_manual | 同上 | 質問を `gemini-embedding-001`（RETRIEVAL_QUERY、768 次元）で埋め込み、Neo4j ベクトル索引で手順書チャンクを検索。チャンクが MENTIONS する部位・故障モードを返す |
+| 5 | ツール search_manual_keyword | 同上 | 全文索引（cjk アナライザ）で型番検索 |
+| 6 | Neo4j AuraDB Free | インスタンス `1b707502`（GCP シンガポール、Neo4j 5.27） | グラフ本体。ベクトル索引・全文索引を内蔵。3 日無操作で停止するため Scheduler でウォームアップ |
+| 7 | Vertex AI | Gemini 3.8 Flash（`global` ロケーション。asia-northeast1 では未提供）、gemini-embedding-001 | 推論と埋め込み。認証は Cloud Run のサービスアカウント（ADC） |
+| 8 | データパイプライン | `scripts/gen_workorders.py` → `load.py` → `translate_names.py` → `embed.py` → `verify.py` | 合成データ生成、投入、英語名付与、チャンク埋め込み、検証 |
+| 9 | 評価 | `agent/rehearse.py`（代表質問を複数回実行して期待値と照合）、`agent/eval/`（ADK evalset ＋ LLM 審査） | 正答率・応答時間・ツール呼び出し回数を記録 |
+| 10 | インフラ | `infra/00_setup_project.sh` → `01_secrets.sh` → `10_deploy_agent.sh` → `20_deploy_web.sh` → `30_scheduler.sh` | 再現可能なデプロイ |
 
-## データフロー
+## 質問 1 のリクエストの流れ
 
-### 事前準備
+1. kg-web が `/api/chat` でセッションを作成し、kg-agent の `/run_sse` を ID トークン付きで呼ぶ。SSE をそのままブラウザへ中継する
+2. Gemini が `search_manual("冷却ポンプ 振動増大", model_id="CP-200")` を呼ぶ。手順書 CP-200 の「2.1 振動・異音の確認」チャンクと、候補の故障モード（主軸ベアリング内輪摩耗、芯ずれ、不釣合い）が返る
+3. Gemini が `read_neo4j_cypher` を 1 回呼び、P-301 の故障モード候補を過去の作業報告件数で並べ、解消する手順と必要資格を取る
+4. 回答本文（約 16〜30 秒）。ブラウザは `functionCall` / `functionResponse` イベントを作業記録として、部分テキストを本文として逐次描画する
+5. 回答完了後、kg-web が本文から ID（WO / PR / CH / PT / T / FM / 設備 / 型式）を抽出し、`/api/evidence` で引用ノード同士の最短経路（3 ホップ以内。中継は引用ノードか Line / Model / Component / FailureMode）を取得して右ペインに描画する
 
-1. `docker compose up -d` で Neo4j を起動
-2. `python scripts/gen_workorders.py` で data/workorders.csv を生成
-3. `python scripts/load.py` でスキーマ作成と全 CSV の投入
-4. `python scripts/embed.py` で manuals/*.md をチャンク化し Chunk ノードを投入
-5. `python scripts/verify.py` で代表質問4本の Cypher を実行し期待値と照合
-
-### デモ中（質問1の例）
-
-1. 発表者が Claude に「P-301 で振動が上がっている」と入力
-2. Claude が search_manual("冷却ポンプ 振動増大") を呼び、該当チャンクと MENTIONS 先の FailureMode 候補を得る
-3. Claude が read_neo4j_cypher で P-301 → Model → Component → FailureMode ← Symptom{振動増大} と、過去の WorkOrder・Procedure を取得
-4. Claude が固定フォーマットで回答し、根拠節に WO / PR / CH の ID とパスを列挙
-5. 発表者が Neo4j Browser で paths.cypher の該当クエリを実行し、同じパスを可視化
-
-## 「ベクトルで起点を見つけ、グラフで文脈を辿る」
+## 「ベクトルで入口を見つけ、グラフで文脈を辿り、ID で根拠を示す」
 
 ```mermaid
 flowchart LR
-  Q[質問文<br/>振動が上がっている] -->|埋め込み| V[ベクトル検索<br/>Chunk 上位k件]
+  Q[質問文<br/>振動が上がっている] -->|gemini-embedding-001| V[ベクトル検索<br/>Chunk 上位 k 件]
   V -->|MENTIONS| FM[FailureMode 候補]
-  FM -->|HAS_FAILURE_MODE 逆方向| C[Component]
-  C -->|HAS_COMPONENT 逆方向| M[Model] -->|OF_MODEL 逆方向| E[同型 Equipment]
+  FM -->|HAS_FAILURE_MODE 逆方向| C[Component] -->|HAS_COMPONENT 逆方向| M[Model] -->|OF_MODEL 逆方向| E[同型 Equipment]
   FM -->|DIAGNOSED 逆方向| WO[WorkOrder] --> PR[Procedure] --> PT[Part] --> S[Supplier]
   WO --> T[Technician]
+  WO & PR & V -->|ID を列挙| EV[根拠節 → 画面で部分グラフ描画]
 ```
-
-ベクトル検索は「どこから入るか」だけを決め、答えの中身はグラフの構造から取る。根拠は常にノードIDとパスで示せる。
-
-## MCP 設定
-
-### Claude Desktop（~/Library/Application Support/Claude/claude_desktop_config.json）
-
-```json
-{
-  "mcpServers": {
-    "neo4j-maintenance": {
-      "command": "/Users/kuro/Desktop/dev/m-kg-maintenance/.venv/bin/python",
-      "args": ["/Users/kuro/Desktop/dev/m-kg-maintenance/mcp/neo4j_cypher/server.py"],
-      "env": {
-        "NEO4J_URI": "bolt://localhost:7687",
-        "NEO4J_USERNAME": "neo4j",
-        "NEO4J_PASSWORD": "maintenance-demo",
-        "NEO4J_DATABASE": "neo4j"
-      }
-    },
-    "search-manual": {
-      "command": "/Users/kuro/Desktop/dev/m-kg-maintenance/.venv/bin/python",
-      "args": ["/Users/kuro/Desktop/dev/m-kg-maintenance/mcp/search_manual/server.py"]
-    }
-  }
-}
-```
-
-### Claude Code（リポジトリ直下 .mcp.json）
-
-同じ2サーバーを定義する。パスはリポジトリ相対（.venv/bin/...）で書く。読み取り専用モードでは write_neo4j_cypher ツールが公開されない。
 
 ## セキュリティ
 
-- mcp-neo4j-cypher は読み取り専用モードで起動し、write ツールを公開しない
-- search_manual は読み取り Cypher のみ実行する
-- Neo4j はローカルのみにバインド。パスワードは .env（git 管理外）
+- kg-agent は未認証アクセス不可。kg-web のサービスアカウント（`roles/run.invoker`）と Cloud Scheduler（OIDC）だけが呼べる
+- Neo4j の認証情報は Secret Manager から環境変数として注入。リポジトリには含めない
+- ツールは読み取り専用。書き込み句は正規表現で拒否し、トランザクションも READ モードで開く（`agent/tests/test_tools.py`）
 - データはすべて合成。実在企業名・人名を含まない
+
+## コスト（審査期間 10/19〜11/6 の見込み）
+
+| 項目 | 見込み |
+| --- | --- |
+| Gemini 3.8 Flash | 1 質問あたり入力 1〜2 万トークン。審査員の試行 100 問で数 USD |
+| 埋め込み | チャンク 43 件 ＋ 質問ごと 1 回。1 USD 未満 |
+| Cloud Run × 2 | min-instances 0 なら無料枠内。審査期間は 1 にして 10〜30 USD |
+| AuraDB Free | 0 USD |
+| Secret Manager / Scheduler / Logging | 1 USD 未満 |
 
 ## 次フェーズでの拡張点
 
 | 拡張 | 変更箇所 |
 | --- | --- |
-| 顧客実データ | data/*.csv を顧客の設備台帳・作業報告に置き換え、load.py の列マッピングを調整 |
-| マニュアル PDF からの自動抽出 | embed.py の前段に LLM Knowledge Graph Builder を置く |
-| センサー時系列 | Equipment に Sensor/Reading ノードを追加 |
-| Web チャット画面と根拠パスのクリック表示 | Claude API ＋ Neo4j 可視化ライブラリ（NVL）で独自UI |
-| claude.ai コネクタ | mcp-neo4j-cypher を HTTP トランスポートで公開ホスト |
+| 顧客実データ | data/*.csv を設備台帳・作業報告に置き換え、load.py の列マッピングを調整 |
+| マニュアル PDF からの自動抽出 | embed.py の前段に Gemini による構造化抽出（部位・故障モード・手順）を置く |
+| センサー時系列 | Equipment に Sensor / Reading ノードを追加し、振動トレンドから故障モードを予測 |
+| 作業報告の自動下書き | 人の承認を挟む書き込みツールを別エージェントとして追加 |
+| Spanner Graph への移行 | Cypher 互換の GQL へ書き換え。Google ネイティブのグラフ DB で運用する選択肢 |

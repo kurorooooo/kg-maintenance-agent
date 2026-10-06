@@ -36,7 +36,7 @@ WRITE_PATTERN = re.compile(
 def driver() -> neo4j.Driver:
     global _driver
     if _driver is None:
-        _driver = GraphDatabase.driver(URI, auth=(USER, PASSWORD))
+        _driver = GraphDatabase.driver(URI, auth=(USER, PASSWORD), notifications_min_severity="OFF")
     return _driver
 
 

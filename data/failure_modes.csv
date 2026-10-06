@@ -1,26 +1,26 @@
-id,componentId,name,category,severity,description
-FM-001,CP-200-BRG,主軸ベアリング内輪摩耗,bearing,high,グリース劣化や芯ずれ荷重により内輪転走面が摩耗し振動・異音・温度上昇を伴う
-FM-002,CP-200-HSG,軸受グリース劣化,lubrication,medium,補給周期超過や高温によりグリースが硬化し潤滑不良となる
-FM-003,CP-200-IMP,インペラ不釣合い（異物付着・摩耗）,mechanical,medium,インペラへの異物付着や摩耗でバランスが崩れ回転同期の振動が出る
-FM-004,CP-200-CPL,カップリング芯ずれ,alignment,medium,据付沈下や配管反力でモーター〜ポンプ間の軸心がずれる
-FM-005,CP-200-SEAL,メカニカルシール摩耗,seal,medium,摺動面摩耗により軸封部から漏水する
-FM-006,CP-200-STR,吸込ストレーナ目詰まり,clogging,low,スケールや異物で吸込側が閉塞し吐出圧・流量が低下する
-FM-007,CP-200-MTR,駆動モーター絶縁劣化,electrical,high,巻線絶縁の劣化で漏電・過電流が発生する
-FM-008,PM-800-SLD,スライドガイド摩耗,wear,high,ガイドライナー摩耗でスライドのガタが増え加工精度が悪化する
-FM-009,PM-800-CLB,クラッチブレーキライニング摩耗,wear,high,ライニング摩耗で停止位置ずれ・焦げ臭が発生する
-FM-010,PM-800-FWB,フライホイールベアリング損傷,bearing,high,ころ軸受の剥離によりフライホイール振動・異音が発生する
-FM-011,PM-800-HYD,油圧ユニット油漏れ,seal,medium,シール劣化で作動油が漏れクランプ圧が低下する
-FM-012,PM-800-PES,安全光電センサ汚れ・光軸ずれ,sensor,low,レンズ汚れや光軸ずれで安全停止が頻発する
-FM-013,PM-800-LUB,集中潤滑ポンプ吐出不良,lubrication,medium,潤滑油が各給油点に届かず摺動部温度が上昇する
-FM-014,BC-50-TPB,テールプーリーベアリング固着,bearing,high,粉塵侵入やグリース切れで軸受が固着し異音・過電流に至る
-FM-015,BC-50-BLT,搬送ベルト片伸び・蛇行,wear,medium,ベルトの片伸びや張力不均一で蛇行する
-FM-016,BC-50-GBX,減速機オイル劣化・歯面摩耗,lubrication,medium,オイル劣化で歯面が摩耗し異音・温度上昇する
-FM-017,BC-50-ROL,キャリアローラ固着,bearing,low,ローラ内蔵軸受の固着でベルト摩耗・異音が出る
-FM-018,BC-50-INV,インバータ過電流故障,electrical,medium,負荷増大やインバータ劣化で過電流トリップする
-FM-019,BC-50-PES,位置検出センサ誤検知,sensor,low,汚れや取付ずれで搬出端の位置検出が誤動作する
-FM-020,CT-10-FBR,ファン軸ベアリング摩耗,bearing,medium,屋外環境での水分侵入により軸受が摩耗し振動・異音が出る
-FM-021,CT-10-NOZ,散水ノズル詰まり,clogging,low,スケールで散水ノズルが詰まり冷却能力・流量が低下する
-FM-022,CT-10-FLT,水位フロート固着,sensor,low,フロートにスケールが付着し補給水制御が異常になる
-FM-023,AC-75-SEP,オイルセパレータ詰まり,clogging,medium,エレメント詰まりで差圧上昇・吐出圧不足とオイル持ち出しが起きる
-FM-024,AC-75-AFL,吸気フィルタ詰まり,clogging,low,フィルタ詰まりで吸気量が減り吐出空気圧が不足する
-FM-025,AC-75-AEN,エアエンドベアリング損傷,bearing,high,エアエンド内部軸受の損傷でロータ接触に至る重大故障
+id,componentId,name,category,severity,description,nameEn,descriptionEn
+FM-001,CP-200-BRG,主軸ベアリング内輪摩耗,bearing,high,グリース劣化や芯ずれ荷重により内輪転走面が摩耗し振動・異音・温度上昇を伴う,Main shaft bearing inner ring wear,"Inner ring raceway wear due to grease degradation or misalignment load, causing vibration, abnormal noise, and temperature rise."
+FM-002,CP-200-HSG,軸受グリース劣化,lubrication,medium,補給周期超過や高温によりグリースが硬化し潤滑不良となる,Bearing grease degradation,"Grease hardening due to missed replenishment intervals or high temperature, leading to poor lubrication."
+FM-003,CP-200-IMP,インペラ不釣合い（異物付着・摩耗）,mechanical,medium,インペラへの異物付着や摩耗でバランスが崩れ回転同期の振動が出る,Impeller imbalance (foreign matter buildup/wear),"Impeller unbalance due to foreign matter buildup or wear, causing rotational vibration."
+FM-004,CP-200-CPL,カップリング芯ずれ,alignment,medium,据付沈下や配管反力でモーター〜ポンプ間の軸心がずれる,Coupling misalignment,Motor-to-pump shaft misalignment due to foundation settlement or piping reaction force.
+FM-005,CP-200-SEAL,メカニカルシール摩耗,seal,medium,摺動面摩耗により軸封部から漏水する,Mechanical seal wear,Water leakage from the shaft seal due to sliding surface wear.
+FM-006,CP-200-STR,吸込ストレーナ目詰まり,clogging,low,スケールや異物で吸込側が閉塞し吐出圧・流量が低下する,Suction strainer clogging,"Suction side clogging due to scale or foreign matter, reducing discharge pressure and flow rate."
+FM-007,CP-200-MTR,駆動モーター絶縁劣化,electrical,high,巻線絶縁の劣化で漏電・過電流が発生する,Drive motor insulation degradation,Ground fault or overcurrent due to winding insulation degradation.
+FM-008,PM-800-SLD,スライドガイド摩耗,wear,high,ガイドライナー摩耗でスライドのガタが増え加工精度が悪化する,Slide guide wear,"Increased slide play due to guide liner wear, deteriorating machining accuracy."
+FM-009,PM-800-CLB,クラッチブレーキライニング摩耗,wear,high,ライニング摩耗で停止位置ずれ・焦げ臭が発生する,Clutch brake lining wear,Stop position deviation and burning smell due to lining wear.
+FM-010,PM-800-FWB,フライホイールベアリング損傷,bearing,high,ころ軸受の剥離によりフライホイール振動・異音が発生する,Flywheel bearing damage,Flywheel vibration and abnormal noise due to roller bearing flaking.
+FM-011,PM-800-HYD,油圧ユニット油漏れ,seal,medium,シール劣化で作動油が漏れクランプ圧が低下する,Hydraulic unit oil leakage,Hydraulic oil leakage and clamp pressure drop due to seal degradation.
+FM-012,PM-800-PES,安全光電センサ汚れ・光軸ずれ,sensor,low,レンズ汚れや光軸ずれで安全停止が頻発する,Safety photoelectric sensor dirt/misalignment,Frequent safety stops due to dirty lens or optical axis misalignment.
+FM-013,PM-800-LUB,集中潤滑ポンプ吐出不良,lubrication,medium,潤滑油が各給油点に届かず摺動部温度が上昇する,Centralized lubrication pump discharge failure,Temperature rise in sliding parts due to lubrication failure at lube points.
+FM-014,BC-50-TPB,テールプーリーベアリング固着,bearing,high,粉塵侵入やグリース切れで軸受が固着し異音・過電流に至る,Tail pulley bearing seizure,"Bearing seizure due to dust ingress or lack of grease, leading to abnormal noise and overcurrent."
+FM-015,BC-50-BLT,搬送ベルト片伸び・蛇行,wear,medium,ベルトの片伸びや張力不均一で蛇行する,Conveyor belt uneven stretch/mistracking,Belt mistracking due to uneven stretching or uneven tension.
+FM-016,BC-50-GBX,減速機オイル劣化・歯面摩耗,lubrication,medium,オイル劣化で歯面が摩耗し異音・温度上昇する,Gearbox oil degradation/tooth surface wear,"Gear tooth wear due to oil degradation, causing abnormal noise and temperature rise."
+FM-017,BC-50-ROL,キャリアローラ固着,bearing,low,ローラ内蔵軸受の固着でベルト摩耗・異音が出る,Carrier roller seizure,Belt wear and abnormal noise due to seizure of the roller-integrated bearing.
+FM-018,BC-50-INV,インバータ過電流故障,electrical,medium,負荷増大やインバータ劣化で過電流トリップする,Inverter overcurrent fault,Overcurrent trip due to increased load or inverter degradation.
+FM-019,BC-50-PES,位置検出センサ誤検知,sensor,low,汚れや取付ずれで搬出端の位置検出が誤動作する,Position detection sensor false detection,Malfunction of discharge-end position detection due to dirt or mounting misalignment.
+FM-020,CT-10-FBR,ファン軸ベアリング摩耗,bearing,medium,屋外環境での水分侵入により軸受が摩耗し振動・異音が出る,Fan shaft bearing wear,"Bearing wear due to moisture ingress in outdoor environments, causing vibration and abnormal noise."
+FM-021,CT-10-NOZ,散水ノズル詰まり,clogging,low,スケールで散水ノズルが詰まり冷却能力・流量が低下する,Spray nozzle clogging,"Spray nozzle clogging due to scale, reducing cooling capacity and flow rate."
+FM-022,CT-10-FLT,水位フロート固着,sensor,low,フロートにスケールが付着し補給水制御が異常になる,Water level float sticking,Makeup water control failure due to scale buildup on the float.
+FM-023,AC-75-SEP,オイルセパレータ詰まり,clogging,medium,エレメント詰まりで差圧上昇・吐出圧不足とオイル持ち出しが起きる,Oil separator clogging,"Increased differential pressure, insufficient discharge pressure, and oil carryover due to element clogging."
+FM-024,AC-75-AFL,吸気フィルタ詰まり,clogging,low,フィルタ詰まりで吸気量が減り吐出空気圧が不足する,Air intake filter clogging,Insufficient discharge air pressure due to reduced intake air volume from filter clogging.
+FM-025,AC-75-AEN,エアエンドベアリング損傷,bearing,high,エアエンド内部軸受の損傷でロータ接触に至る重大故障,Air end bearing damage,Major failure leading to rotor contact due to damage to the air-end internal bearing.

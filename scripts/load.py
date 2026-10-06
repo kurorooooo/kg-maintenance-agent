@@ -39,16 +39,16 @@ SCHEMA = [
 LOADS: list[tuple[str, str]] = [
     ("lines.csv", """
         UNWIND $rows AS r
-        MERGE (n:Line {id: r.id}) SET n.name = r.name, n.process = r.process
+        MERGE (n:Line {id: r.id}) SET n.name = r.name, n.nameEn = r.nameEn, n.process = r.process
     """),
     ("models.csv", """
         UNWIND $rows AS r
-        MERGE (n:Model {id: r.id}) SET n.name = r.name, n.category = r.category, n.maker = r.maker
+        MERGE (n:Model {id: r.id}) SET n.name = r.name, n.nameEn = r.nameEn, n.category = r.category, n.maker = r.maker
     """),
     ("equipment.csv", """
         UNWIND $rows AS r
         MERGE (e:Equipment {id: r.id})
-        SET e.name = r.name, e.installedYear = toInteger(r.installedYear), e.location = r.location
+        SET e.name = r.name, e.nameEn = r.nameEn, e.installedYear = toInteger(r.installedYear), e.location = r.location
         WITH e, r
         MATCH (l:Line {id: r.lineId}) MERGE (l)-[:HAS_EQUIPMENT]->(e)
         WITH e, r
@@ -57,12 +57,12 @@ LOADS: list[tuple[str, str]] = [
     ("suppliers.csv", """
         UNWIND $rows AS r
         MERGE (n:Supplier {id: r.id})
-        SET n.name = r.name, n.standardLeadTimeDays = toInteger(r.standardLeadTimeDays), n.contact = r.contact
+        SET n.name = r.name, n.nameEn = r.nameEn, n.standardLeadTimeDays = toInteger(r.standardLeadTimeDays), n.contact = r.contact
     """),
     ("parts.csv", """
         UNWIND $rows AS r
         MERGE (p:Part {id: r.id})
-        SET p.name = r.name, p.partNo = r.partNo, p.stockQty = toInteger(r.stockQty),
+        SET p.name = r.name, p.nameEn = r.nameEn, p.partNo = r.partNo, p.stockQty = toInteger(r.stockQty),
             p.leadTimeDays = toInteger(r.leadTimeDays), p.unitPrice = toInteger(r.unitPrice)
         WITH p, r
         MATCH (s:Supplier {id: r.supplierId}) MERGE (p)-[:SUPPLIED_BY]->(s)
@@ -70,7 +70,7 @@ LOADS: list[tuple[str, str]] = [
     ("components.csv", """
         UNWIND $rows AS r
         MERGE (c:Component {id: r.id})
-        SET c.name = r.name, c.position = r.position, c.replaceCycleMonths = toInteger(r.replaceCycleMonths)
+        SET c.name = r.name, c.nameEn = r.nameEn, c.position = r.position, c.replaceCycleMonths = toInteger(r.replaceCycleMonths)
         WITH c, r
         MATCH (m:Model {id: r.modelId}) MERGE (m)-[:HAS_COMPONENT]->(c)
         WITH c, r
@@ -78,12 +78,13 @@ LOADS: list[tuple[str, str]] = [
     """),
     ("symptoms.csv", """
         UNWIND $rows AS r
-        MERGE (n:Symptom {id: r.id}) SET n.name = r.name
+        MERGE (n:Symptom {id: r.id}) SET n.name = r.name, n.nameEn = r.nameEn
     """),
     ("failure_modes.csv", """
         UNWIND $rows AS r
         MERGE (f:FailureMode {id: r.id})
-        SET f.name = r.name, f.category = r.category, f.severity = r.severity, f.description = r.description
+        SET f.name = r.name, f.nameEn = r.nameEn, f.category = r.category, f.severity = r.severity,
+            f.description = r.description, f.descriptionEn = r.descriptionEn
         WITH f, r
         MATCH (c:Component {id: r.componentId}) MERGE (c)-[:HAS_FAILURE_MODE]->(f)
     """),
@@ -95,9 +96,9 @@ LOADS: list[tuple[str, str]] = [
     ("procedures.csv", """
         UNWIND $rows AS r
         MERGE (p:Procedure {id: r.id})
-        SET p.name = r.name, p.durationMin = toInteger(r.durationMin),
+        SET p.name = r.name, p.nameEn = r.nameEn, p.durationMin = toInteger(r.durationMin),
             p.requiredCert = CASE WHEN r.requiredCert = '' THEN null ELSE r.requiredCert END,
-            p.summary = r.summary
+            p.summary = r.summary, p.summaryEn = r.summaryEn
         WITH p, r
         MATCH (f:FailureMode {id: r.failureModeId}) MERGE (p)-[:RESOLVES]->(f)
     """),
@@ -109,7 +110,7 @@ LOADS: list[tuple[str, str]] = [
     ("technicians.csv", """
         UNWIND $rows AS r
         MERGE (t:Technician {id: r.id})
-        SET t.name = r.name, t.yearsExp = toInteger(r.yearsExp), t.note = r.note,
+        SET t.name = r.name, t.nameEn = r.nameEn, t.yearsExp = toInteger(r.yearsExp), t.note = r.note,
             t.cert = [c IN split(r.cert, ';') WHERE c <> '']
         WITH t, r
         MATCH (l:Line {id: r.lineId}) MERGE (t)-[:ASSIGNED_TO]->(l)
