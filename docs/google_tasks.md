@@ -211,8 +211,8 @@ google-kg-maintenance/
 
 - [x] `scripts/common.py` と `.env.example`：`EMBED_MODEL` / `EMBED_DIM` / `GOOGLE_*` を追加。`neo4j+s://` は AuraDB 接続時に確認
 - [x] `scripts/embed.py`：埋め込みを `agent/kg_agent/embeddings.py`（Gemini Embedding、RETRIEVAL_DOCUMENT、768 次元、L2 正規化、バッチ失敗時は 1 件ずつ）に置換。索引は DROP → 再作成。`--dry-run` 維持。**実行は ADC 取得後**
-- [ ] `scripts/translate_names.py`（新規）：lines / models / equipment / components / parts / failure_modes / symptoms / procedures / technicians / suppliers の `name`（と手順の `summary`、故障モードの `description`）を Gemini で英訳し `nameEn` 等の列として CSV に追記。人名はローマ字化。`load.py` で `nameEn` を SET
-- [ ] `scripts/load.py`：`nameEn` の投入、`CREATE TEXT INDEX` 等が Aura で通ることを確認
+- [x] `scripts/translate_names.py`（Gemini、構造化出力、冪等。2026-10-06 実行済み）：lines / models / equipment / components / parts / failure_modes / symptoms / procedures / technicians / suppliers の `name`（と手順の `summary`、故障モードの `description`）を Gemini で英訳し `nameEn` 等の列として CSV に追記。人名はローマ字化。`load.py` で `nameEn` を SET
+- [x] `scripts/load.py`：`nameEn` / `summaryEn` / `descriptionEn` の投入。Aura で確認済み
 - [ ] ローカル Docker の Neo4j で `load.py --reset` → `embed.py` → `verify.py` が ALL PASS
 
 ADK エージェント
@@ -227,8 +227,8 @@ ADK エージェント
 - [x] `agent/main.py`：`get_fast_api_app(agents_dir, web=False)` ＋ `/healthz`（`RETURN 1` を実行して AuraDB をウォームアップ）。`agent/Dockerfile`、`agent/requirements.txt` も作成
 - [x] `agent/tests/test_tools.py`：読み取り専用ガード（SET/CREATE/CALL dbms 等を拒否、`n.set` のような属性名は許可）、日付の JSON 化、ツール配線。17 件 PASS
 - [x] `agent/ask.py`（CLI。ツール呼び出しと所要時間を表示、`--session` で多段会話、`--json` でログ保存）で AuraDB に対して E2E 確認（2026-10-06、gemini-3.8-flash @ global）。Q1〜Q4、E1、E2、英語版 Q1 の 7 問すべて期待値と一致。所要 21〜44 秒、ツール呼び出し 1〜3 回。英語質問は英語名＋日本語原語の併記で回答
-- [ ] 応答の長さを調整：Q2・Q4 で聞かれていない部品・技術者まで出す。指示文に「聞かれた項目だけ」を強める。Q4 で日付確認の余分なクエリ 1 回
-- [ ] 指示文の見出しを回答言語に統一（日本語の質問でも「Conclusion」「Evidence」と英語見出しになることがある）。日本語回答の「past cases: n」を「過去事例 n 件」に
+- [x] 応答の長さを調整：指示文に「聞かれた項目だけ」「date() 確認クエリ禁止」を追加。Q1 は 2 回・16〜23 秒に
+- [x] 指示文の見出しを回答言語に統一（結論 / 原因候補 / 推奨対処 / 根拠、過去事例 n 件）
 - [ ] Gemini が書いた重い Cypher が 30 秒かかる例があった（A5）。`CYPHER_TIMEOUT_S=20` を導入済み。指示文に「OPTIONAL MATCH の連鎖で直積を作らない。collect で先に集約する」を追加
 - [ ] `agent/eval/demo_questions.evalset.json`：Q1〜Q4、E1、E2 を登録（期待ツール軌跡、参照回答）。`adk eval agent/kg_agent agent/eval/demo_questions.evalset.json` を通す。評価設定は `tool_trajectory_avg_score` を緩め（順序不問）、`final_response_match_v2` と `hallucinations_v1` を使う
 - [ ] 応答時間の目標：Q1 で 15 秒以内（Flash）。超える場合はプロンプト短縮、`top_k` 削減、Cypher の 1 回化
@@ -281,12 +281,12 @@ UX の仕上げ（審査 10%＋Best UI/UX 賞）
 
 ### P4：品質・評価・ドキュメント（10/13〜10/15）
 
-- [ ] リハーサル：Q1〜Q4、B2、C1、E1 を 5 回ずつ実行し、正答率・応答時間・ツール呼び出し回数を表にする（README に掲載）
-- [ ] `adk eval` の結果を README に掲載（Technical Merit の証拠）
-- [ ] 幻覚対策の確認：E1 / E2 で「No record」と答える。書き込み Cypher が拒否されることをテストで示す（`agent/tests/test_tools.py`）
+- [x] リハーサル：`agent/rehearse.py` で 9 ケース × 5 回＝45 ターン、全て正答（docs/eval/rehearsal.md、README に掲載）。中央値 19〜35 秒、ツール 2〜3 回
+- [x] `adk eval`：7 ケース全て PASS。回答一致 1.00、幻覚チェック 1.00（会話ケースのみ 0.86）。docs/eval/adk_eval.md、README に掲載
+- [x] 幻覚対策の確認：E1 / E2 で「記録なし」（各 5/5）。書き込み Cypher の拒否は `agent/tests/test_tools.py`
 - [ ] 負荷・コスト：Cloud Run の同時実行とタイムアウト（300 秒）、Gemini の 1 日あたり利用量を見積もる（審査員 10 名 × 10 問でも数 USD）
-- [ ] README.md（英語）：問題、解決策、アーキテクチャ図、Google Cloud サービス一覧、セットアップ手順（ローカル / GCP）、評価結果、データの説明（合成データ・実在名なし）、チーム、ライセンス
-- [ ] docs/architecture.md を GCP 構成に更新（mermaid 図を本書の図に置換）。docs/submission/ に提出物一覧とリンク集
+- [x] README.md（英語）：問題、解決策、構成図、GCP サービス一覧、手順、評価結果、データ説明、チーム、ライセンス
+- [x] docs/architecture.md を GCP 構成に全面改訂。docs/submission/links.md に提出物一覧と審査期間の運用チェック
 - [ ] 日本語の既存 docs は残して良いが、README から「Claude」「MCP」の記述を消す。docs/prompt.md は `legacy` へ
 
 ### P5：デモ動画・ピッチデッキ・提出（10/14〜10/17）
