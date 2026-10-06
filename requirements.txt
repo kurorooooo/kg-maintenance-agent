@@ -1,0 +1,9 @@
+# ローカルのデータ投入・埋め込み・検証スクリプト用（エージェント本体の依存は agent/requirements.txt）
+neo4j>=5.28,<6
+python-dotenv>=1.0
+google-genai>=1.30
+google-adk>=2.11
+pypdf>=5
+pypdfium2>=4
+pillow>=10
+certifi>=2024

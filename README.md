@@ -1,0 +1,113 @@
+# Maintenance Knowledge Graph Agent
+
+**An AI maintenance assistant for factories that answers with evidence you can trace on a graph.**
+Built for the AI Builder Cup 2026 (Google Cloud, Manufacturing theme) with Gemini, the Agent Development Kit (ADK), Vertex AI Embeddings, Cloud Run and Neo4j AuraDB.
+
+> Night shift. The cooling pump on Line 3 is vibrating. The veteran who knows this pump is off duty.
+> The answer exists, scattered across the equipment register, two years of work orders, the parts inventory and a 40-page manual.
+> This agent connects those sources into one knowledge graph and lets Gemini walk it: symptom → failure mode → past work orders → procedure → parts in stock → certified technician, citing every ID and manual page it used.
+
+## What it does
+
+| Question | How the agent answers | Why a document-only RAG struggles |
+| --- | --- | --- |
+| "P-301 is vibrating. Likely causes and past fixes?" | Equipment → Model → Component → FailureMode ← Symptom, ranked by past work orders, backed by the manual page | Needs ranking by structured history |
+| "Did the same model on other lines have the same failure?" | P-301 → Model CP-200 ← other pumps ← WorkOrders | Other lines' reports never mention "P-301" |
+| "Parts in stock, lead time, and who can do the job?" | Procedure → Part → Supplier; Procedure.requiredCert ∈ Technician.cert | Joins across inventory and HR data |
+| "Which machines had the most bearing-related stops this year?" | Aggregation over FailureMode.category and WorkOrder.date | Counting is not retrieval |
+| "Any bearing failures on P-302?" | **"No record"** (there are none) | Prevents hallucinated work-order IDs |
+
+Every answer ends with an **Evidence** section (work-order IDs, procedure ID, manual chunk ID with source and page, and the path walked), which the web UI renders as a sub-graph.
+
+## Architecture
+
+```mermaid
+flowchart LR
+  U[Maintenance staff<br/>browser] -->|HTTPS| WEB[Cloud Run: kg-web<br/>Next.js App Router<br/>chat · tool timeline · evidence graph]
+  WEB -->|ID-token auth, SSE| AGENT[Cloud Run: kg-agent<br/>Google ADK LlmAgent<br/>Gemini 3.8 Flash]
+  AGENT -->|read_neo4j_cypher<br/>search_manual (vector)<br/>search_manual_keyword| DB[(Neo4j AuraDB<br/>knowledge graph +<br/>manual chunks)]
+  AGENT -->|Gemini · gemini-embedding-001| VAI[Vertex AI]
+  WEB -->|read-only Cypher for evidence paths| DB
+  SM[Secret Manager] --> AGENT
+  SCH[Cloud Scheduler<br/>daily warm-up] --> AGENT
+```
+
+- **Agent** (`agent/`): Python, [Google ADK](https://adk.dev). One `LlmAgent` with three read-only function tools. Write clauses in Cypher are rejected before execution. Temperature 0.2, at most 3 tool calls per question, fixed answer format.
+- **Semantic entry, structural answer**: the question is embedded with `gemini-embedding-001` (768-dim) and matched against manual chunks in a Neo4j vector index. Chunks are linked (`MENTIONS`) to components and failure modes, so the agent then walks the graph with Cypher. Vectors decide *where to start*; the graph provides *the answer and the evidence*.
+- **Web** (`web/`, in progress): Next.js App Router on Cloud Run. Streams the agent's tool calls and answer, extracts the cited IDs and draws the evidence sub-graph with Neo4j NVL.
+- **Data** (`data/`, `manuals/`): a synthetic factory ("Plant A": 3 lines, 12 machines, 5 models, 25 failure modes, 25 procedures, 80 work orders over two years, 5 manuals). Values are Japanese, as real plant documents in Japan are; the agent answers in the user's language and keeps IDs intact. No real companies, products or people.
+
+Graph model (12 node labels, 17 relationship types; `FailureMode` is the hub): see [docs/model.md](docs/model.md).
+
+## Google Cloud services used
+
+Gemini 3.8 Flash (Vertex AI, `global`), Vertex AI text embeddings (`gemini-embedding-001`), Agent Development Kit, Cloud Run (two services), Secret Manager, Artifact Registry, Cloud Build, Cloud Scheduler, Cloud Logging. Neo4j AuraDB Free runs on Google Cloud.
+
+## Run it locally
+
+```bash
+# 1. Neo4j (Docker Desktop must be running)
+docker compose up -d                      # http://localhost:7474  neo4j / maintenance-demo
+
+# 2. Python
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+cp .env.example .env                      # set GOOGLE_CLOUD_PROJECT; needs `gcloud auth application-default login`
+
+# 3. Load the graph and embed the manuals
+.venv/bin/python scripts/gen_workorders.py
+.venv/bin/python scripts/load.py --reset
+.venv/bin/python scripts/embed.py         # Gemini Embedding → Neo4j vector index
+.venv/bin/python scripts/verify.py        # hand-written Cypher for the four reference questions → ALL PASS
+
+# 4. Ask the agent
+cp agent/.env.example agent/.env
+.venv/bin/python agent/ask.py "P-301 is vibrating more than usual. Likely causes and how were they handled before?"
+# or the ADK dev UI:
+cd agent && ../.venv/bin/adk web
+```
+
+Tests that need no credentials: `cd agent && ../.venv/bin/python -m pytest tests`.
+
+## Deploy to Google Cloud
+
+```bash
+infra/00_setup_project.sh      # APIs, service accounts, Artifact Registry
+infra/01_secrets.sh            # Neo4j credentials → Secret Manager (NEO4J_URI / NEO4J_PASSWORD in env)
+infra/10_deploy_agent.sh       # Cloud Run: kg-agent
+infra/20_deploy_web.sh         # Cloud Run: kg-web
+infra/30_scheduler.sh          # daily warm-up ping
+```
+
+## Results (reference questions, Gemini 3.8 Flash, AuraDB, 2026-10-06)
+
+| Question | Correct | Latency | Tool calls |
+| --- | --- | --- | --- |
+| Q1 causes and past fixes for P-301 vibration | yes (FM-001, 6 past cases, PR-001, manual p.1) | 21–44 s | 2–3 |
+| Q2 same model on other lines | yes (P-101 ×4, P-201 ×1) | 32 s | 1 |
+| Q3 parts, lead times, technicians | yes | 30 s | 2 |
+| Q4 bearing-related stops, last 12 months | yes (P-301: 3 stops, 935 min) | 35 s | 2 |
+| E1 bearing failures on P-302 | "No record" (correct) | 38 s | 3 |
+| E2 unknown machine P-401 | "No record" (correct) | 23 s | 2 |
+
+## Repository layout
+
+```
+agent/      ADK agent (tools, prompt, FastAPI entrypoint, Dockerfile, tests, ask.py CLI)
+web/        Next.js frontend (in progress)
+data/       synthetic master data and work orders (CSV)
+manuals/    synthetic maintenance manuals (Markdown)
+scripts/    load / embed / verify / data generation
+queries/    reference Cypher and evidence-path queries
+infra/      gcloud deployment scripts
+docs/       plan (docs/google_tasks.md), graph model, architecture, demo script (Japanese)
+deck/ movie/ pitch deck and demo video sources
+```
+
+## Team
+
+- Kakeru Kurosawa — COO, AIdeaLab (product, engineering)
+- Junichi Fujioka — manufacturing CFO, 30 years in a global electronics group (domain validation, impact)
+
+## License
+
+MIT. All data in this repository is synthetic.
