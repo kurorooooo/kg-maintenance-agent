@@ -55,7 +55,7 @@
 - [x] `gcloud` CLI をローカルに導入（Homebrew、SDK 587.0.0。PATH は ~/.zshrc に追記済み）
 - [x] `gcloud auth login` と ADC（quota project 設定済み）
 - [x] `infra/00_setup_project.sh` 実行済み：API 有効化、kg-agent-sa / kg-web-sa、Artifact Registry `kg`（asia-northeast1）。課金有効を確認（project number 12836768193）
-- [ ] 新規 GitHub リポジトリ（public）を作成。既存フォルダを `git init` 済みの状態から初回コミット
+- [x] 新規 GitHub リポジトリ（public）を作成し初回コミット（2026-10-06）
 - [ ] 下の「決定事項」D1〜D6 を確定
 
 ---
@@ -178,8 +178,8 @@ flowchart LR
 - [x] GCP：プロジェクト ID `empirical-vial-510800-i7`（表示名 202610-google-Ontology-aiagent）、リージョンは `asia-northeast1`。API 有効化・SA・Artifact Registry は `infra/00_setup_project.sh`（認証後に実行）。課金が有効か確認する
 - [x] ローカル：`gcloud` インストール済み。google-adk 2.11.0 が Python 3.13 の既存 venv に入ることを確認（3.12 への切替は不要）。Node 24 導入済み
 - [ ] ローカル：`gcloud auth application-default login`（Vertex AI をローカルから叩くため）
-- [ ] GitHub：公開リポジトリ作成、`.gitignore` 見直し（`neo4j/`、`.env`、`movie/out/`、`deck/node_modules/`）、LICENSE（Apache-2.0 または MIT）
-- [ ] 既存の `mcp/`、`.mcp.json`、docs/prompt.md（Claude 向け）を `legacy/claude-mcp` ブランチに退避し、main から外す
+- [x] GitHub：https://github.com/kurorooooo/kg-maintenance-agent （public、MIT、README 英語）。main は Gemini/ADK 構成、`legacy/claude-mcp` に旧構成
+- [x] `mcp/`、`.mcp.json`、docs/prompt.md を `legacy/claude-mcp` に退避し main から削除
 - [ ] リポジトリ構成を決める
 
 ```
@@ -238,11 +238,11 @@ ADK エージェント
 - [x] macOS の python.org 版 Python は OS 証明書を使わないため、`certifi` を `SSL_CERT_FILE` に設定（scripts/common.py、agent/kg_agent/neo4j_client.py）
 - [ ] 未使用の 2 つ目のインスタンス `80d9c6e3`（My instance）はコンソールから削除
 - [x] ローカルから AuraDB に `load.py --reset` → `embed.py` → `verify.py` ALL PASS（252 ノード・715 関係・43 チャンク 768 次元。Q1〜Q4 PASS、最長 921ms）
-- [ ] `agent/Dockerfile`（python:3.12-slim、`uvicorn main:app`、`PORT` 対応）
-- [ ] `infra/deploy_agent.sh`：`gcloud run deploy kg-agent --source agent --region asia-northeast1 --no-allow-unauthenticated --min-instances 1 --set-env-vars GOOGLE_GENAI_USE_VERTEXAI=TRUE,GOOGLE_CLOUD_PROJECT=...,GOOGLE_CLOUD_LOCATION=...,AGENT_MODEL=...,EMBED_MODEL=...,EMBED_DIM=768 --set-secrets NEO4J_URI=neo4j-uri:latest,NEO4J_PASSWORD=neo4j-password:latest`
-- [ ] サービスアカウント：kg-agent に `roles/aiplatform.user`、`roles/secretmanager.secretAccessor`
-- [ ] `curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" .../run_sse` で Q1 が返ることを確認
-- [ ] Cloud Scheduler：毎日 2 回 `/healthz` を呼ぶジョブ（OIDC 認証）。AuraDB Free の自動停止を防ぐ
+- [x] `agent/Dockerfile`（python:3.12-slim）、`agent/.gcloudignore`（.env・tests を除外）
+- [x] `infra/10_deploy_agent.sh`（2026-10-06 デプロイ済み、URL https://kg-agent-7ikzkb2evq-an.a.run.app 、認証必須、min-instances は当面 0。審査前に 1 へ）：`gcloud run deploy kg-agent --source agent --region asia-northeast1 --no-allow-unauthenticated --min-instances 1 --set-env-vars GOOGLE_GENAI_USE_VERTEXAI=TRUE,GOOGLE_CLOUD_PROJECT=...,GOOGLE_CLOUD_LOCATION=...,AGENT_MODEL=...,EMBED_MODEL=...,EMBED_DIM=768 --set-secrets NEO4J_URI=neo4j-uri:latest,NEO4J_PASSWORD=neo4j-password:latest`
+- [x] サービスアカウント：kg-agent-sa に `roles/aiplatform.user`、`roles/secretmanager.secretAccessor`
+- [x] `/run_sse` に ID トークン付きで E1 を投げ、29 秒で正答を確認（セッション作成 → run_sse）。`/healthz` と `/health` は Cloud Run / ADK に取られるため、Neo4j 疎通チェックは `/warmup` に配置
+- [x] Cloud Scheduler `kg-agent-warmup`：03:00 / 15:00 JST に `/warmup` を OIDC（kg-web-sa）で呼ぶ。`infra/30_scheduler.sh`
 - [ ] Cloud Logging でツール呼び出しと Cypher を確認できるようにする（構造化ログ）
 
 ### P3：フロントエンド Next.js App Router（10/9〜10/13）

@@ -1,6 +1,6 @@
-"""Cloud Run entrypoint: ADK FastAPI app (/run, /run_sse, sessions) plus /healthz.
+"""Cloud Run entrypoint: ADK FastAPI app (/run, /run_sse, sessions) plus /warmup.
 
-/healthz runs `RETURN 1` on Neo4j so that a Cloud Scheduler ping keeps an AuraDB Free instance from pausing.
+/warmup runs `RETURN 1` on Neo4j so that a Cloud Scheduler ping keeps an AuraDB Free instance from pausing.
 """
 from __future__ import annotations
 
@@ -26,8 +26,8 @@ app = get_fast_api_app(
 )
 
 
-@app.get("/healthz")
-def healthz() -> dict:
+@app.get("/warmup")
+def warmup() -> dict:
     from kg_agent import neo4j_client
 
     try:
