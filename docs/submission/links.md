@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | デプロイ済みプロトタイプ（Cloud Run） | 稼働中 | https://kg-web-7ikzkb2evq-an.a.run.app |
 | 公開 GitHub リポジトリ | 公開済み | https://github.com/kurorooooo/kg-maintenance-agent |
-| デモ動画（3 分以内、英語、YouTube 限定公開） | 未作成（P5） | — |
+| デモ動画（3 分以内、英語、YouTube 限定公開） | レンダリング済み 2:31（movie/out/demo_en.mp4、1080p、Gemini TTS ナレーション） | YouTube URL：（アップロード待ち） |
 | ピッチデッキ（英語、PDF） | 未作成（P5） | deck/ で生成予定 |
 | ドキュメント | README（英語）、docs/architecture.md、docs/model.md | リポジトリ内 |
 | 問題ステートメントのカテゴリ | Manufacturing | — |

@@ -1,0 +1,56 @@
+[
+ {
+  "scene": "title",
+  "file": "audio/title.wav",
+  "seconds": 14.92,
+  "text": "Plant A Maintenance Agent. An AI assistant for factory maintenance that answers with evidence you can trace on a graph. Built with Gemini, the Agent Development Kit and Neo4j on Google Cloud."
+ },
+ {
+  "scene": "problem",
+  "file": "audio/problem.wav",
+  "seconds": 19.44,
+  "text": "Night shift. A cooling pump on line three is vibrating, and the veteran who knows it is off duty. The answer exists, scattered across the equipment register, two years of work orders, the parts inventory and a forty-page manual. Document search alone cannot connect them."
+ },
+ {
+  "scene": "approach",
+  "file": "audio/approach.wav",
+  "seconds": 18.88,
+  "text": "We connect those sources into one knowledge graph and let Gemini walk it. A vector search over the manuals finds where to start. The graph supplies the answer: failure modes ranked by history, the procedure, parts in stock, and who is certified. Every ID in the answer is a node you can inspect."
+ },
+ {
+  "scene": "demo_q1",
+  "file": "audio/demo_q1.wav",
+  "seconds": 19.64,
+  "text": "Let's ask. The agent searches the manual, then queries the graph once. Bearing inner ring wear is the most likely cause: six past cases on this pump, procedure P R zero zero one, cited from page one of the manual. Every ID is a chip. Click one, and the evidence graph lights up."
+ },
+ {
+  "scene": "demo_q2",
+  "file": "audio/demo_q2.wav",
+  "seconds": 15.72,
+  "text": "A follow-up: did the same model fail this way on other lines? Document search cannot answer this, because those reports never mention P three zero one. The graph crosses through the model node: four cases on line one, one on line two."
+ },
+ {
+  "scene": "demo_q3",
+  "file": "audio/demo_q3.wav",
+  "seconds": 9.16,
+  "text": "Then the next action: parts in stock, lead times, and the certified technicians on line three, with how many times each has done the job."
+ },
+ {
+  "scene": "honesty",
+  "file": "audio/honesty.wav",
+  "seconds": 5.76,
+  "text": "And when there is no record, it says so. No invented work-order numbers."
+ },
+ {
+  "scene": "technology",
+  "file": "audio/technology.wav",
+  "seconds": 21.4,
+  "text": "Under the hood: a Google ADK agent on Cloud Run with three read-only tools, Gemini 3.8 Flash, Gemini embeddings in a Neo4j vector index, and a Next.js front end. In rehearsal, forty-five of forty-five reference questions were answered correctly, and the ADK hallucination check scored one point zero."
+ },
+ {
+  "scene": "closing",
+  "file": "audio/closing.wav",
+  "seconds": 16.76,
+  "text": "Unplanned downtime costs thousands of dollars an hour, and the knowledge to prevent it is retiring. This runs on the data every plant already has: registers, work orders and manuals, in any language. Try it at the link, and read the code on GitHub."
+ }
+]

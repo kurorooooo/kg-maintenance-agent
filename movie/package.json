@@ -5,7 +5,10 @@
   "scripts": {
     "studio": "remotion studio src/index.ts",
     "render": "remotion render src/index.ts Demo out/demo.mp4 --codec h264",
-    "still": "remotion still src/index.ts Demo out/frame.png --frame"
+    "still": "remotion still src/index.ts Demo out/frame.png --frame",
+    "record": "node record.mjs",
+    "convert": "ffmpeg -y -loglevel error -i out/rec/demo.webm -vf \"crop=1440:810:0:0,scale=1920:1080:flags=lanczos\" -c:v libx264 -preset fast -crf 19 -pix_fmt yuv420p -r 30 -an public/rec/demo.mp4",
+    "render:en": "remotion render src/index.ts DemoEn out/demo_en.mp4 --codec h264 --browser-executable \"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\""
   },
   "dependencies": {
     "@remotion/cli": "^4.0.532",
@@ -15,5 +18,8 @@
     "react-dom": "^19.3.0",
     "remotion": "^4.0.532",
     "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
   }
 }

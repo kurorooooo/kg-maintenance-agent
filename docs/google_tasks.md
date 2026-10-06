@@ -299,8 +299,8 @@ UX の仕上げ（審査 10%＋Best UI/UX 賞）
   3. 0:45〜2:15 実画面：Q1（症状 → 故障モード → 手順書ページ）、Q2（型式経由で別ラインへ横断）、Q3（部品在庫・技術者）、E1（記録なし）。ツールタイムラインと根拠グラフが動く様子を見せる
   4. 2:15〜2:40 技術：ADK ＋ Gemini ＋ Vertex AI Embeddings ＋ Cloud Run ＋ AuraDB、`adk eval` の結果、読み取り専用設計
   5. 2:40〜2:55 インパクトと次の一手：4 週間で顧客データに展開、センサー時系列、作業報告の自動下書き
-- [ ] 実画面は Playwright または画面録画で 1080p 収録し、Remotion に `<Video>` で合成。字幕は英語。ナレーションは英語（TTS 可）
-- [ ] YouTube に限定公開でアップロードし URL を提出
+- [x] 実画面を Playwright で録画（movie/record.mjs、本番 URL、1440×810 → 1920×1080）。Remotion `DemoEn` で OffthreadVideo 合成。ナレーションは Gemini TTS（gemini-3.8-flash-tts、Kore、scripts/gen_narration.py）。**2026-10-06 レンダリング完了：2 分 31 秒、movie/out/demo_en.mp4**
+- [ ] YouTube に限定公開でアップロードし URL を提出（黒澤。ファイルは movie/out/demo_en.mp4）
 
 ピッチデッキ（英語、PDF、10〜12 枚）
 

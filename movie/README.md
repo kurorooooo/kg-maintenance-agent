@@ -34,3 +34,19 @@ npx remotion render src/index.ts Demo out/demo.mp4 --codec h264 --browser-execut
 - Neo4j Browser の画像は `public/neo4j_browser.png`（.playwright-mcp/neo4j_browser_p301.png のコピー）。
 - 色はディスカッション資料と同じ 6 色（`src/lib.tsx` の `C`）。
 - ナレーション音声は入れていない。字幕（画面下）がナレーション原稿を兼ねる。
+
+## 英語版（AI Builder Cup 提出用、`DemoEn`）
+
+ナレーションは Gemini TTS、画面は本番 URL の Playwright 録画。手順：
+
+```bash
+cd movie && npm install
+../.venv/bin/python ../scripts/gen_narration.py      # public/audio/*.wav と src/narration.json（Gemini TTS）
+npm run record                                        # out/rec/demo.webm と src/marks.json（本番 UI を 1440x810 で録画）
+npm run convert                                       # public/rec/demo.mp4（切り出し・1920x1080 化）
+npm run render:en                                     # out/demo_en.mp4（2 分 31 秒）
+```
+
+- シーン構成と台本は docs/submission/video_script.md。各シーンの長さはナレーション音声の長さから自動で決まる（src/en/RootEn.tsx）
+- 画面録画の切り出し位置は src/marks.json のクリック／回答完了時刻から計算する
+- 音声と録画は git 管理外（再生成可能）

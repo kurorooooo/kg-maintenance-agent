@@ -19,3 +19,5 @@ movie/node_modules/
 movie/out/
 movie/package-lock.json
 .env.aura
+movie/public/rec/
+movie/public/audio/

@@ -1,0 +1,66 @@
+[
+ {
+  "name": "start",
+  "t": 1.45
+ },
+ {
+  "name": "q1:click",
+  "t": 4.5
+ },
+ {
+  "name": "q1:answered",
+  "t": 29.26
+ },
+ {
+  "name": "q1:evidence",
+  "t": 29.99
+ },
+ {
+  "name": "q1:chip",
+  "t": 34.08
+ },
+ {
+  "name": "q2:click",
+  "t": 41.12
+ },
+ {
+  "name": "q2:answered",
+  "t": 71.19
+ },
+ {
+  "name": "q2:evidence",
+  "t": 71.2
+ },
+ {
+  "name": "q3:click",
+  "t": 79.24
+ },
+ {
+  "name": "q3:answered",
+  "t": 114.88
+ },
+ {
+  "name": "q3:evidence",
+  "t": 114.88
+ },
+ {
+  "name": "reset",
+  "t": 122.94
+ },
+ {
+  "name": "e1:click",
+  "t": 124.47
+ },
+ {
+  "name": "e1:answered",
+  "t": 159.27
+ },
+ {
+  "name": "e1:evidence",
+  "t": 159.73
+ },
+ {
+  "name": "end",
+  "t": 167.73
+ }
+]

@@ -4,6 +4,7 @@ import { ClosingScene, ProblemScene, TitleScene } from "./scenes/Intro";
 import { BrowserScene, RawDataScene, TransformScene } from "./scenes/Data";
 import { AgentScene, ArchitectureScene } from "./scenes/Flow";
 import { AnalysisScene, EvidenceScene } from "./scenes/Results";
+import { DemoEnComposition } from "./en/RootEn";
 
 export const FPS = 30;
 
@@ -40,5 +41,8 @@ const Demo: React.FC = () => {
 };
 
 export const RemotionRoot: React.FC = () => (
-  <Composition id="Demo" component={Demo} durationInFrames={TOTAL} fps={FPS} width={1920} height={1080} />
+  <>
+    <Composition id="Demo" component={Demo} durationInFrames={TOTAL} fps={FPS} width={1920} height={1080} />
+    <DemoEnComposition />
+  </>
 );
