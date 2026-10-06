@@ -1,0 +1,81 @@
+export type Locale = "en" | "ja";
+
+const dict = {
+  en: {
+    title: "Plant A maintenance agent",
+    tagline: "Ask about a machine. Watch the agent search the manuals and walk the graph. Check the evidence yourself.",
+    examples: "Example questions",
+    newSession: "Start over",
+    placeholder: "Ask about a machine, a failure, a part or a technician…",
+    send: "Ask",
+    working: "Working",
+    starting: "Reading the question…",
+    composing: "Writing the answer from the results…",
+    done: "Answered in",
+    seconds: "s",
+    steps: "What the agent did",
+    answer: "Answer",
+    evidence: "Evidence",
+    evidenceEmpty: "Evidence for the latest answer appears here.",
+    overviewCaption: "P-301, the cooling pump from the night-shift scenario: its line, model, components, failure modes and 16 work orders.",
+    legend: "Node colours",
+    family: { asset: "Lines, equipment, models", material: "Components, parts, suppliers", problem: "Failure modes, symptoms", action: "Work orders, procedures, technicians", manual: "Manual pages" },
+    tool: {
+      search_manual: "Searched the manuals",
+      search_manual_keyword: "Searched the manuals by keyword",
+      read_neo4j_cypher: "Queried the knowledge graph",
+    },
+    rows: (n: number) => `${n} rows`,
+    hits: (n: number) => `${n} passages`,
+    error: "Something went wrong. Try again.",
+    cypher: "Cypher",
+    close: "Close",
+    properties: "Properties",
+    github: "Source",
+    howItWorks: "How it works",
+    howText:
+      "Vector search finds where to start (a manual passage). The graph supplies the answer: failure modes, past work orders, procedures, parts in stock and certified technicians. Every ID in the answer is a node you can inspect here.",
+    groups: { trace: "Follow the structure", insight: "Find what registers alone cannot show", aggregate: "Count and compare", manual: "Search the manuals", honest: "Say no when there is no record" },
+  },
+  ja: {
+    title: "A工場 保全エージェント",
+    tagline: "設備について質問すると、エージェントが手順書を検索し、グラフを辿って答えます。根拠は自分で確かめられます。",
+    examples: "質問の例",
+    newSession: "最初から",
+    placeholder: "設備・故障・部品・技術者について質問…",
+    send: "質問する",
+    working: "処理中",
+    starting: "質問を読んでいます…",
+    composing: "検索結果から回答を作成しています…",
+    done: "回答まで",
+    seconds: "秒",
+    steps: "エージェントがしたこと",
+    answer: "回答",
+    evidence: "根拠",
+    evidenceEmpty: "最新の回答の根拠がここに表示されます。",
+    overviewCaption: "夜勤シナリオの冷却ポンプ P-301。ライン、型式、部位、故障モード、作業報告 16 件。",
+    legend: "ノードの色",
+    family: { asset: "ライン・設備・型式", material: "部位・部品・サプライヤー", problem: "故障モード・症状", action: "作業報告・手順・技術者", manual: "手順書の段落" },
+    tool: {
+      search_manual: "手順書を意味検索",
+      search_manual_keyword: "手順書をキーワード検索",
+      read_neo4j_cypher: "ナレッジグラフを検索",
+    },
+    rows: (n: number) => `${n} 行`,
+    hits: (n: number) => `${n} 段落`,
+    error: "エラーが発生しました。もう一度お試しください。",
+    cypher: "Cypher",
+    close: "閉じる",
+    properties: "属性",
+    github: "ソースコード",
+    howItWorks: "仕組み",
+    howText:
+      "ベクトル検索で入口（手順書の段落）を見つけ、答えの中身はグラフから取ります。故障モード、過去の作業報告、手順、部品在庫、有資格者。回答中の ID はすべてここで確かめられるノードです。",
+    groups: { trace: "構造を辿る", insight: "台帳を別々に見ていては気づけないこと", aggregate: "集計する", manual: "手順書を引く", honest: "記録がなければ「ない」と言う" },
+  },
+} as const;
+
+export type Dict = (typeof dict)["en"];
+export function t(locale: Locale): Dict {
+  return dict[locale] as unknown as Dict;
+}

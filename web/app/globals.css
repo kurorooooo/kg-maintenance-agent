@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+/* Design tokens: a workshop bench. Cool grey surface, white panels, navy ink, one signal blue. */
+:root {
+  --bench: #eef1f4;
+  --panel: #ffffff;
+  --panel-2: #f6f8fa;
+  --rule: #d9dee5;
+  --rule-strong: #b9c2cc;
+  --ink: #1b2430;
+  --ink-2: #4a5563;
+  --ink-3: #7b8794;
+  --signal: #2f54f7;
+  --signal-soft: #e3e9ff;
+  --ok: #1e9e6a;
+  --warn: #c8781c;
+
+  /* graph label families */
+  --asset: #2f54f7;     /* Line, Equipment, Model */
+  --material: #1c8c8c;  /* Component, Part, Supplier */
+  --problem: #e8742c;   /* FailureMode, Symptom */
+  --action: #7a4dd8;    /* WorkOrder, Procedure, Technician */
+  --manual: #b8860b;    /* Chunk */
+}
+
+@theme inline {
+  --color-bench: var(--bench);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-signal: var(--signal);
+  --color-signal-soft: var(--signal-soft);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-asset: var(--asset);
+  --color-material: var(--material);
+  --color-problem: var(--problem);
+  --color-action: var(--action);
+  --color-manual: var(--manual);
+  --font-sans: var(--font-plex), var(--font-plex-jp), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--bench);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Answer prose */
+.answer h1,
+.answer h2,
+.answer h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  margin: 14px 0 4px;
+}
+.answer h3:first-child,
+.answer h2:first-child {
+  margin-top: 0;
+}
+.answer p {
+  margin: 4px 0;
+}
+.answer ul,
+.answer ol {
+  margin: 4px 0 4px 18px;
+}
+.answer ul {
+  list-style: disc;
+}
+.answer ol {
+  list-style: decimal;
+}
+.answer li {
+  margin: 2px 0;
+}
+.answer table {
+  border-collapse: collapse;
+  margin: 8px 0;
+  font-size: 13px;
+  width: 100%;
+}
+.answer th,
+.answer td {
+  border-bottom: 1px solid var(--rule);
+  padding: 4px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+.answer th {
+  color: var(--ink-2);
+  font-weight: 600;
+  border-bottom-color: var(--rule-strong);
+}
+.answer code {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  background: var(--panel-2);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+.answer strong {
+  font-weight: 600;
+}
+
+@keyframes pulse-ring {
+  0% {
+    r: 14;
+    opacity: 0.9;
+  }
+  100% {
+    r: 30;
+    opacity: 0;
+  }
+}
+.pulse {
+  animation: pulse-ring 1.2s ease-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}

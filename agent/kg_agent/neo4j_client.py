@@ -7,7 +7,7 @@ from datetime import date, datetime, time
 from typing import Any
 
 import neo4j
-from neo4j import GraphDatabase
+from neo4j import GraphDatabase, unit_of_work
 
 try:  # local macOS python.org builds lack system root certs; harmless on Cloud Run
     import certifi
@@ -21,6 +21,7 @@ URI = os.getenv("NEO4J_URI", "bolt://localhost:7687")
 USER = os.getenv("NEO4J_USERNAME", "neo4j")
 PASSWORD = os.getenv("NEO4J_PASSWORD", "maintenance-demo")
 DATABASE = os.getenv("NEO4J_DATABASE", "neo4j")
+QUERY_TIMEOUT_S = float(os.getenv("CYPHER_TIMEOUT_S", "20"))  # a slow model-written query fails fast and gets rewritten
 
 _driver: neo4j.Driver | None = None
 
@@ -68,6 +69,7 @@ def run_read(query: str, params: dict | None = None, limit: int = 50) -> list[di
     if not is_read_only(query):
         raise ValueError("Only read-only Cypher is allowed (no CREATE/MERGE/DELETE/SET/REMOVE/DROP/CALL procedures).")
 
+    @unit_of_work(timeout=QUERY_TIMEOUT_S)
     def work(tx):
         result = tx.run(query, **(params or {}))
         return [to_json(r.data()) for _, r in zip(range(limit), result)]

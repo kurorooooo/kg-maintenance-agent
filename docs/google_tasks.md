@@ -228,7 +228,8 @@ ADK エージェント
 - [x] `agent/tests/test_tools.py`：読み取り専用ガード（SET/CREATE/CALL dbms 等を拒否、`n.set` のような属性名は許可）、日付の JSON 化、ツール配線。17 件 PASS
 - [x] `agent/ask.py`（CLI。ツール呼び出しと所要時間を表示、`--session` で多段会話、`--json` でログ保存）で AuraDB に対して E2E 確認（2026-10-06、gemini-3.8-flash @ global）。Q1〜Q4、E1、E2、英語版 Q1 の 7 問すべて期待値と一致。所要 21〜44 秒、ツール呼び出し 1〜3 回。英語質問は英語名＋日本語原語の併記で回答
 - [ ] 応答の長さを調整：Q2・Q4 で聞かれていない部品・技術者まで出す。指示文に「聞かれた項目だけ」を強める。Q4 で日付確認の余分なクエリ 1 回
-- [ ] 指示文の見出しを回答言語に統一（現状「結論 (Conclusion)」の併記）。日本語回答の「past cases: n」を「過去事例 n 件」に
+- [ ] 指示文の見出しを回答言語に統一（日本語の質問でも「Conclusion」「Evidence」と英語見出しになることがある）。日本語回答の「past cases: n」を「過去事例 n 件」に
+- [ ] Gemini が書いた重い Cypher が 30 秒かかる例があった（A5）。`CYPHER_TIMEOUT_S=20` を導入済み。指示文に「OPTIONAL MATCH の連鎖で直積を作らない。collect で先に集約する」を追加
 - [ ] `agent/eval/demo_questions.evalset.json`：Q1〜Q4、E1、E2 を登録（期待ツール軌跡、参照回答）。`adk eval agent/kg_agent agent/eval/demo_questions.evalset.json` を通す。評価設定は `tool_trajectory_avg_score` を緩め（順序不問）、`final_response_match_v2` と `hallucinations_v1` を使う
 - [ ] 応答時間の目標：Q1 で 15 秒以内（Flash）。超える場合はプロンプト短縮、`top_k` 削減、Cypher の 1 回化
 
@@ -249,34 +250,34 @@ ADK エージェント
 
 セットアップ
 
-- [ ] `npx create-next-app@latest web --ts --app --tailwind --eslint`、shadcn/ui 導入、`output: 'standalone'`
-- [ ] 環境変数：`AGENT_URL`、`NEO4J_URI` / `NEO4J_USERNAME` / `NEO4J_PASSWORD`（根拠パス取得用。読み取りのみ）、`NEXT_PUBLIC_DEFAULT_LOCALE=en`
+- [x] Next.js 16.3（App Router、TypeScript、Tailwind v4）、`output: 'standalone'`。shadcn/ui は使わず Tailwind のみで実装（依存を減らすため）。書体 IBM Plex Sans / Sans JP / Mono
+- [x] 環境変数：`AGENT_URL`、`NEO4J_*`（Secret Manager）、`NEXT_PUBLIC_DEFAULT_LOCALE=en`。ローカルは `web/.env.local`（gitignore）
 
 画面（1 ページ構成、3 カラム）
 
-- [ ] 左：サンプル質問（docs/demo_questions.md の A1〜A5、B1〜B3、C1〜C2、D1〜D2、E1〜E2 を EN/JA で）とセッションリセット
-- [ ] 中央：チャット。回答はストリーミング表示。固定フォーマットの「根拠」節は ID をチップ化し、クリックで右の グラフ上で強調
-- [ ] 中央下：ツール呼び出しタイムライン（`search_manual` → `read_neo4j_cypher` …、各呼び出しの引数と件数、所要時間。Cypher は折りたたみ表示）
-- [ ] 右：根拠パスのグラフ（@neo4j-nvl/react）。ラベル別の配色、ノードクリックで属性パネル。`Line → Equipment → Model → Component → FailureMode → WorkOrder → Procedure → Part → Supplier` の方向で自動レイアウト
-- [ ] ヘッダ：EN / JA 切替（UI 文言と、エージェントへ渡す言語ヒント）、アーキテクチャ図へのリンク、GitHub リンク
+- [x] 左：サンプル質問 13 問（A1〜A5、B1〜B3、C1〜C2、D1〜D2、E1〜E2、EN/JA）とセッションリセット
+- [x] 中央：チャット。SSE で逐次表示。回答中の ID（WO / PR / CH / PT / T / FM / 設備 / 型式）をチップ化し、クリックで右のグラフ上で強調（パルス）
+- [x] 各回答の上部に「エージェントがしたこと」：ツール名、検索語、件数、所要時間、Cypher の折りたたみ。最後のツール完了後は「回答を作成中」を表示
+- [x] 右：根拠グラフ。NVL ではなく d3-force ＋ SVG を自作（ラベル別配色、矢印、関係名、ホバーで近傍強調、クリックで属性パネル、ホイールで拡大・ドラッグで移動）。初期表示は P-301 周辺（33 ノード）
+- [x] ヘッダ：EN / JA 切替（localStorage に保存。回答言語は質問の言語で決まる）、「仕組み」ポップオーバー、GitHub リンク
 
 API（サーバー側ルート）
 
-- [ ] `app/api/chat/route.ts`：kg-agent の `/run_sse` を ID トークン付きで呼び、SSE をそのまま中継。セッション作成（`/apps/{app}/users/{user}/sessions/{session}`）を初回に実行
-- [ ] `app/api/evidence/route.ts`：回答本文から ID を抽出し、queries/paths.cypher 相当の Cypher で部分グラフ（nodes / rels）を返す。設備 ID と WO / PR / CH / PT / T の間の最短パスを `shortestPath` で取る
-- [ ] `app/api/graph/overview/route.ts`：初期表示用に P-301 周辺の部分グラフ（デモ冒頭の「グラフを見せる」）
+- [x] `app/api/chat/route.ts`：kg-agent の `/run_sse` を ID トークン付きで呼び SSE を中継。セッションは初回に作成（既存なら無視）。ID トークンは Cloud Run では SA、ローカルでは `gcloud auth print-identity-token` にフォールバック
+- [x] `app/api/evidence/route.ts`：回答本文から ID を抽出し、引用ノード同士の最短経路（3 ホップ以内、中継は引用ノードか Line/Model/Component/FailureMode に限定）で部分グラフを返す。Q1 で 21〜28 ノード、E1 で 7 ノード
+- [x] `app/api/graph/overview/route.ts`：P-301 周辺の部分グラフ
 
 デプロイ
 
-- [ ] `web/Dockerfile`（multi-stage、standalone）
-- [ ] `infra/deploy_web.sh`：`gcloud run deploy kg-web --source web --allow-unauthenticated --min-instances 1`。kg-web のサービスアカウントに kg-agent の `roles/run.invoker`
-- [ ] カスタムドメインは任意。Cloud Run の `*.run.app` URL で提出可
+- [x] `web/Dockerfile`（node:24-alpine、multi-stage、standalone）、`web/.gcloudignore`
+- [x] `infra/20_deploy_web.sh`：デプロイ済み **https://kg-web-7ikzkb2evq-an.a.run.app** （公開、kg-web-sa に kg-agent の run.invoker）。本番で EN/JA の質問→回答→根拠グラフを確認（2026-10-06）
+- [ ] カスタムドメインは任意。Cloud Run の `*.run.app` URL で提出可。審査前に両サービスを `MIN_INSTANCES=1` で再デプロイ
 
 UX の仕上げ（審査 10%＋Best UI/UX 賞）
 
 - [ ] 初回訪問時に 20 秒のガイド（3 ステップ：質問を選ぶ → ツールの動きを見る → 根拠グラフを確かめる）
-- [ ] 応答待ちの間にツールタイムラインが動くことで「待たされ感」を減らす
-- [ ] モバイル幅では 1 カラム（タブ切替）
+- [x] 応答待ちの間にツールタイムラインと経過秒数が動く
+- [x] モバイル幅では「回答 / 根拠」のタブ切替、質問例は折りたたみ
 
 ### P4：品質・評価・ドキュメント（10/13〜10/15）
 
