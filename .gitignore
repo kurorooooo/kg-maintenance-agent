@@ -21,3 +21,6 @@ movie/package-lock.json
 .env.aura
 movie/public/rec/
 movie/public/audio/
+deck/shots/
+deck/page_*.png
+deck/pitch_thumbs*.jpg

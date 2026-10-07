@@ -41,6 +41,7 @@
 | 氏名 | 所属・経歴 | 担当 |
 | --- | --- | --- |
 | 黒澤 翔（Kakeru Kurosawa） | AIdeaLab COO。元 PwC コンサルティング、元 Sony でエッジ AI の新規事業開発 | プロダクト設計、実装（ADK / Next.js / GCP）、デモ動画、ピッチ構成、提出 |
+| 福尾 幸太郎（Kotaro Fukuo）https://jp.linkedin.com/in/kotaro-fukuo | ソフトウェアエンジニア。モバイル・バックエンド 8 年超（React Native / TypeScript / Rails / AWS）。Sansan、Input Logic 等。明治大学 機械情報工学 | ソフトウェアエンジニアリング（フロントエンド／モバイル／基盤）、ロードマップの現場向けモバイル UI。**10/11 までに Hack2skill 登録が必要** |
 | 藤岡 淳一（Junichi Fujioka）https://www.linkedin.com/in/junichi-fujioka-66028020a/ | 元 Sony グループ約 30 年、現在は製造業 CFO | 製造現場の課題検証（問題ステートメントの妥当性）、インパクトの定量化（停止時間・保全コスト・技能伝承の損失を金額に）、ピッチの「Problem Alignment & Impact」パート、決勝での業界向け説明 |
 
 - 2 名とも 21 歳以上の社会人、日本在住で要件を満たす。決勝の渡航枠（2 名）とも一致する
@@ -304,7 +305,7 @@ UX の仕上げ（審査 10%＋Best UI/UX 賞）
 
 ピッチデッキ（英語、PDF、10〜12 枚）
 
-- [ ] deck/build.js を元に `deck/build_pitch.js` を作る（6 色テーマ流用、英語）
+- [x] `deck/build_pitch.js`（6 色テーマ流用、英語、コンサル形式のアクションタイトル）。13 枚。2026-10-07 生成、docs/pitch_deck.pdf
   1. タイトル / チーム
   2. 問題（製造現場の保全ノウハウの散在、ベテラン退職）
   3. なぜ今の RAG では解けないか（横断質問）
@@ -317,7 +318,7 @@ UX の仕上げ（審査 10%＋Best UI/UX 賞）
   10. 新規性（グラフを根拠にする設計、多言語現場文書、読み取り専用安全設計）
   11. ロードマップ（センサー時系列、書き込みエージェント、Spanner Graph 検討）
   12. チーム / リンク（デプロイ URL、GitHub、動画）
-- [ ] PDF 書き出し（deck/ の既存手順）
+- [x] PDF 書き出し（soffice --headless）
 
 提出
 
