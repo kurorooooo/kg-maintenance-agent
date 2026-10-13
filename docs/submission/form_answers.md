@@ -31,4 +31,23 @@ Gemini 3.8 Flash (Vertex AI), gemini-embedding-001 (Vertex AI), Agent Developmen
 - Deck (PDF): docs/pitch_deck.pdf
 
 ## Team
-Kakeru Kurosawa (product, domain & engineering), Kotaro Fukuo (software engineering)
+Team name (Hack2skill): Plant A
+Members: Kakeru Kurosawa (product, domain & engineering), Kotaro Fukuo (software engineering)
+Team logo: docs/submission/team_logo.png (1:1, 1024 px, 9 KB)
+
+## Team description for Hack2skill (≤ 256 chars)
+Two builders from Tokyo turning plant registers, work orders and manuals into an ontology-backed knowledge graph, so a Gemini agent can answer field engineers with evidence they can trace.
+
+## YouTube upload (unlisted)
+Title: Plant A Maintenance Agent | AI Builder Cup 2026 demo (Manufacturing)
+
+Description:
+An ontology-backed AI agent for field engineers. Plant A models a factory as a knowledge graph on Neo4j; a Gemini agent built with Google's Agent Development Kit walks it through read-only tools and answers with work-order IDs, procedure IDs and manual pages you can trace on the evidence graph.
+
+Built for AI Builder Cup 2026 (Google Cloud x Hack2skill), Manufacturing track.
+Live app: https://kg-web-7ikzkb2evq-an.a.run.app
+Code: https://github.com/kurorooooo/kg-maintenance-agent
+Stack: Gemini 3.8 Flash, gemini-embedding-001, ADK, Cloud Run, Neo4j AuraDB, Next.js.
+Team Plant A: Kakeru Kurosawa, Kotaro Fukuo. All plant data is synthetic.
+
+Settings: Visibility = Unlisted (not Private); Audience = not made for kids; no end screens needed.

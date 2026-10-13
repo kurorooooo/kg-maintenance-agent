@@ -1,20 +1,20 @@
 # 提出物一覧（AI Builder Cup 2026）
 
-更新：2026-10-06
+更新：2026-10-13
 
 | 提出物 | 状態 | リンク / 場所 |
 | --- | --- | --- |
 | デプロイ済みプロトタイプ（Cloud Run） | 稼働中 | https://kg-web-7ikzkb2evq-an.a.run.app |
 | 公開 GitHub リポジトリ | 公開済み | https://github.com/kurorooooo/kg-maintenance-agent |
-| デモ動画（3 分以内、英語、YouTube 限定公開） | レンダリング済み 2:31（movie/out/demo_en.mp4、1080p、Gemini TTS ナレーション） | YouTube URL：（アップロード待ち） |
+| デモ動画（3 分以内、英語、YouTube 限定公開） | レンダリング済み 2:39（movie/out/demo_en.mp4、1080p、Gemini TTS ナレーション、2 名クレジット） | YouTube URL：（アップロード待ち。タイトル・説明文は form_answers.md の「YouTube upload」節） |
 | ピッチデッキ（英語、PDF、13 枚） | 作成済み（2026-10-07） | docs/pitch_deck.pdf（生成：`cd deck && NODE_PATH=$PWD/node_modules node build_pitch.js` → `soffice --headless --convert-to pdf`） |
 | ドキュメント | README（英語）、docs/architecture.md、docs/model.md、提出フォーム用英文 docs/submission/form_answers.md | リポジトリ内 |
 | 問題ステートメントのカテゴリ | Manufacturing | — |
-| チーム | 黒澤 翔、福尾 幸太郎（藤岡さんは 2026-10-13 に離脱） | Hack2skill のチーム名：（未記入）。福尾さんの 10/11 までの登録：（要確認） |
+| チーム | 黒澤 翔、福尾 幸太郎（藤岡さんは 2026-10-13 に離脱） | Hack2skill のチーム名：**Plant A**（2026-10-13 決定）。チームロゴ：docs/submission/team_logo.png（1024×1024、9 KB、3 ノードの三角形）。福尾さんの 10/11 までの登録：（要確認） |
 
 ## 審査期間中の運用チェック
 
-- [ ] 10/18 までに `MIN_INSTANCES=1 infra/10_deploy_agent.sh` と `MIN_INSTANCES=1 infra/20_deploy_web.sh` を実行（コールドスタート回避）
+- [x] 常時起動化（2026-10-13 実施）：`gcloud run services update kg-agent|kg-web --min-instances 1`。リビジョン kg-agent-00006 / kg-web-00003。以後 `infra/10_deploy_agent.sh` / `20_deploy_web.sh` で再デプロイするときは必ず `MIN_INSTANCES=1` を付ける（付けないと 0 に戻る）
 - [ ] Cloud Scheduler `kg-agent-warmup` が 1 日 2 回成功していることを確認（AuraDB Free の停止防止）
 - [ ] Cloud Monitoring の Uptime check を kg-web に設定し、失敗時にメール通知
 - [ ] Gemini のクォータ（1 分あたりのリクエスト数）を確認。審査員の同時アクセスを想定して max-instances 3 のままで足りるか
