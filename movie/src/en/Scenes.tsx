@@ -75,7 +75,7 @@ export const TitleEn: React.FC<{ durationInFrames: number }> = ({ durationInFram
         </div>
       </div>
       <div style={{ position: "absolute", left: 96, bottom: 84, display: "flex", gap: 36, alignItems: "baseline", opacity: rise(frame, fps * 8, 20) }}>
-        <div style={{ fontSize: 22, color: T.text }}>Kakeru Kurosawa · Junichi Fujioka</div>
+        <div style={{ fontSize: 22, color: T.text }}>Kakeru Kurosawa · Kotaro Fukuo</div>
         <div style={{ fontSize: 20, color: T.muted }}>Gemini 3.8 Flash · Agent Development Kit · Vertex AI · Cloud Run · Neo4j AuraDB</div>
       </div>
     </Scene>
@@ -288,7 +288,7 @@ export const ClosingEn: React.FC<{ durationInFrames: number }> = ({ durationInFr
         <div><span style={{ color: T.accent2, marginRight: 16 }}>Try it</span>kg-web-7ikzkb2evq-an.a.run.app</div>
         <div><span style={{ color: T.accent2, marginRight: 16 }}>Code</span>github.com/kurorooooo/kg-maintenance-agent</div>
       </div>
-      <div style={{ position: "absolute", right: 96, bottom: 92, fontSize: 22, color: T.text, opacity: rise(frame, fps * 11, 16) }}>Kakeru Kurosawa · Junichi Fujioka</div>
+      <div style={{ position: "absolute", right: 96, bottom: 92, fontSize: 22, color: T.text, opacity: rise(frame, fps * 11, 16) }}>Kakeru Kurosawa · Kotaro Fukuo</div>
     </Scene>
   );
 };

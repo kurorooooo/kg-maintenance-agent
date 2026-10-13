@@ -28,7 +28,7 @@ const THEME = {
 const pres = new pptxgen();
 pres.layout = "LAYOUT_WIDE"; // 13.33 x 7.5
 pres.theme = { headFontFace: THEME.headFontFace, bodyFontFace: THEME.bodyFontFace };
-pres.author = "Kakeru Kurosawa, Junichi Fujioka, Kotaro Fukuo";
+pres.author = "Kakeru Kurosawa, Kotaro Fukuo";
 pres.title = "Plant A Maintenance Agent — AI Builder Cup 2026";
 const C = pres.SchemeColor;
 
@@ -147,9 +147,8 @@ function nodeBox(s, x, y, w, h, title, sub, fill = C.background2, lineColor = BL
 // ================================================================ slides (English pitch deck, 12 slides)
 const SHOT = path.resolve(__dirname, "shots", "app_q1.png");
 const TEAM = [
-  ["Kakeru Kurosawa", "Product & engineering lead", "Built the agent, the graph pipeline and the web app. COO at AIdeaLab; previously PwC consulting and new-business development for edge AI at Sony."],
-  ["Junichi Fujioka", "Manufacturing & impact", "Manufacturing CFO. About 30 years in a global electronics group across plants, finance and operations. Validates the problem and quantifies the value."],
-  ["Kotaro Fukuo", "Software engineering", "Software engineer with 8+ years in mobile and backend (React Native, TypeScript, Ruby on Rails, AWS). B.E. Mechanical Engineering Informatics, Meiji University."],
+  ["Kakeru Kurosawa", "Product, domain & engineering lead", "Built the ontology, the agent, the graph pipeline and the web app. COO at AIdeaLab; previously PwC consulting and new-business development for edge AI at Sony, working with manufacturing customers."],
+  ["Kotaro Fukuo", "Software engineering", "Software engineer with 8+ years in mobile and backend (React Native, TypeScript, Ruby on Rails, AWS); owns the field-facing mobile UI on the roadmap. B.E. Mechanical Engineering Informatics, Meiji University."],
 ];
 
 async function build() {
@@ -168,7 +167,7 @@ async function build() {
         { text: "Gemini 3.8 Flash · Agent Development Kit · Vertex AI · Cloud Run · Neo4j AuraDB", options: { breakLine: true } },
         { text: "", options: { breakLine: true } },
         { text: "AI Builder Cup 2026 · Manufacturing · October 2026", options: { color: BLUE, bold: true, breakLine: true } },
-        { text: "Kakeru Kurosawa · Junichi Fujioka · Kotaro Fukuo", options: { color: DGRAY } },
+        { text: "Kakeru Kurosawa · Kotaro Fukuo", options: { color: DGRAY } },
       ],
       { placeholder: "body" }
     );
@@ -375,7 +374,7 @@ async function build() {
     stat(s, MX + 9.3, 1.7, 3.2, "≈ 20 s", "from question to ranked causes, parts and people");
     cols.forEach(([icon, head, body], i) => card(s, MX + i * (cw + 0.3), 3.35, cw, 2.9, { icon, head, body, bodySize: 10.5 }));
     rrect(s, MX, 6.4, W - 2 * MX, 0.5, C.background2);
-    txt(s, "Cost figures are illustrative assumptions for a mid-size plant; the team's manufacturing CFO is validating them against industry benchmarks for the final pitch.", { x: MX + 0.3, y: 6.42, w: W - 2 * MX - 0.6, h: 0.46, fontSize: 10, color: C.text1, valign: "middle" });
+    txt(s, "Cost figures are illustrative assumptions for a mid-size plant, to be replaced with a customer plant's own downtime cost and incident counts in the four-week pilot.", { x: MX + 0.3, y: 6.42, w: W - 2 * MX - 0.6, h: 0.46, fontSize: 10, color: C.text1, valign: "middle" });
   }
   {
     const s = content("What is new: answers grounded in an ontology with graph evidence, bilingual access to Japanese floor documents, and an agent that is read-only and says “no record”");
@@ -414,7 +413,7 @@ async function build() {
       txt(s, [{ text: h, options: { bold: true, color: C.accent1, breakLine: true } }, { text: b, options: { fontSize: 10.5 } }], { x: x + 0.15, y: 4.02, w: nw - 0.3, h: 1.15, fontSize: 12 });
     });
     txt(s, "Team", { x: MX, y: 5.4, w: 6, h: 0.35, fontSize: 11, bold: true, color: C.text2 });
-    const tw = (W - 2 * MX - 0.4) / 3;
+    const tw = (W - 2 * MX - 0.2) / 2;
     TEAM.forEach(([name, role, bio], i) => {
       const x = MX + i * (tw + 0.2);
       rrect(s, x, 5.75, tw, 1.15, C.background2);
@@ -429,7 +428,7 @@ async function build() {
         { text: "Live app   kg-web-7ikzkb2evq-an.a.run.app", options: { breakLine: true } },
         { text: "Source     github.com/kurorooooo/kg-maintenance-agent", options: { breakLine: true } },
         { text: "", options: { breakLine: true } },
-        { text: "Kakeru Kurosawa · Junichi Fujioka · Kotaro Fukuo", options: {} },
+        { text: "Kakeru Kurosawa · Kotaro Fukuo", options: {} },
       ],
       { placeholder: "body" }
     );

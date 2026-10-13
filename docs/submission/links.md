@@ -10,7 +10,7 @@
 | ピッチデッキ（英語、PDF、13 枚） | 作成済み（2026-10-07） | docs/pitch_deck.pdf（生成：`cd deck && NODE_PATH=$PWD/node_modules node build_pitch.js` → `soffice --headless --convert-to pdf`） |
 | ドキュメント | README（英語）、docs/architecture.md、docs/model.md、提出フォーム用英文 docs/submission/form_answers.md | リポジトリ内 |
 | 問題ステートメントのカテゴリ | Manufacturing | — |
-| チーム | 黒澤 翔、藤岡 淳一、福尾 幸太郎 | Hack2skill のチーム名：（未記入）。福尾さんの登録：（未確認） |
+| チーム | 黒澤 翔、福尾 幸太郎（藤岡さんは 2026-10-13 に離脱） | Hack2skill のチーム名：（未記入）。福尾さんの 10/11 までの登録：（要確認） |
 
 ## 審査期間中の運用チェック
 

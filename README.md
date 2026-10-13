@@ -123,8 +123,8 @@ deck/ movie/ pitch deck and demo video sources
 
 ## Team
 
-- Kakeru Kurosawa — COO, AIdeaLab (product, engineering)
-- Junichi Fujioka — manufacturing CFO, 30 years in a global electronics group (domain validation, impact)
+- Kakeru Kurosawa — product, domain and engineering lead (COO, AIdeaLab; ex-PwC, ex-Sony)
+- Kotaro Fukuo — software engineering (8+ years mobile and backend; B.E. Mechanical Engineering Informatics)
 
 ## License
 

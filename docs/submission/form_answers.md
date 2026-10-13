@@ -31,4 +31,4 @@ Gemini 3.8 Flash (Vertex AI), gemini-embedding-001 (Vertex AI), Agent Developmen
 - Deck (PDF): docs/pitch_deck.pdf
 
 ## Team
-Kakeru Kurosawa (product & engineering), Junichi Fujioka (manufacturing & impact), Kotaro Fukuo (software engineering)
+Kakeru Kurosawa (product, domain & engineering), Kotaro Fukuo (software engineering)
