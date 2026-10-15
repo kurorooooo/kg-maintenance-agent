@@ -301,7 +301,7 @@ UX の仕上げ（審査 10%＋Best UI/UX 賞）
   4. 2:15〜2:40 技術：ADK ＋ Gemini ＋ Vertex AI Embeddings ＋ Cloud Run ＋ AuraDB、`adk eval` の結果、読み取り専用設計
   5. 2:40〜2:55 インパクトと次の一手：4 週間で顧客データに展開、センサー時系列、作業報告の自動下書き
 - [x] 実画面を Playwright で録画（movie/record.mjs、本番 URL、1440×810 → 1920×1080）。Remotion `DemoEn` で OffthreadVideo 合成。ナレーションは Gemini TTS（gemini-3.8-flash-tts、Kore、scripts/gen_narration.py）。**2026-10-06 レンダリング完了：2 分 31 秒、movie/out/demo_en.mp4**
-- [ ] YouTube に限定公開でアップロードし URL を提出（黒澤。ファイルは movie/out/demo_en.mp4、2:39。タイトル・説明文は docs/submission/form_answers.md）。チャンネルは新規作成した「Plant A」チャンネルを推奨
+- [x] YouTube に限定公開でアップロード済み（2026-10-15）：https://www.youtube.com/watch?v=TvJVhiY2rhg
 
 ピッチデッキ（英語、PDF、10〜12 枚）
 

@@ -3,6 +3,8 @@
 **An AI maintenance assistant for factories that answers with evidence you can trace on a graph.**
 Built for the AI Builder Cup 2026 (Google Cloud, Manufacturing theme) with Gemini, the Agent Development Kit (ADK), Vertex AI Embeddings, Cloud Run and Neo4j AuraDB.
 
+Live app: https://kg-web-7ikzkb2evq-an.a.run.app · Demo video (2:40): https://www.youtube.com/watch?v=TvJVhiY2rhg · Pitch deck: [docs/pitch_deck.pdf](docs/pitch_deck.pdf)
+
 > Night shift. The cooling pump on Line 3 is vibrating. The veteran who knows this pump is off duty.
 > The answer exists, scattered across the equipment register, two years of work orders, the parts inventory and a 40-page manual.
 > This agent connects those sources into one knowledge graph and lets Gemini walk it: symptom → failure mode → past work orders → procedure → parts in stock → certified technician, citing every ID and manual page it used.

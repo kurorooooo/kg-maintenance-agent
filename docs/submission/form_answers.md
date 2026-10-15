@@ -27,7 +27,7 @@ Gemini 3.8 Flash (Vertex AI), gemini-embedding-001 (Vertex AI), Agent Developmen
 ## Links
 - Live app: https://kg-web-7ikzkb2evq-an.a.run.app
 - GitHub: https://github.com/kurorooooo/kg-maintenance-agent
-- Demo video (YouTube, unlisted): (to be added)
+- Demo video (YouTube, unlisted): https://www.youtube.com/watch?v=TvJVhiY2rhg
 - Deck (PDF): docs/pitch_deck.pdf
 
 ## Team

@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | デプロイ済みプロトタイプ（Cloud Run） | 稼働中 | https://kg-web-7ikzkb2evq-an.a.run.app |
 | 公開 GitHub リポジトリ | 公開済み | https://github.com/kurorooooo/kg-maintenance-agent |
-| デモ動画（3 分以内、英語、YouTube 限定公開） | レンダリング済み 2:39（movie/out/demo_en.mp4、1080p、Gemini TTS ナレーション、2 名クレジット） | YouTube URL：（アップロード待ち。タイトル・説明文は form_answers.md の「YouTube upload」節） |
+| デモ動画（3 分以内、英語、YouTube 限定公開） | レンダリング済み 2:39（movie/out/demo_en.mp4、1080p、Gemini TTS ナレーション、2 名クレジット） | YouTube URL：https://www.youtube.com/watch?v=TvJVhiY2rhg（2026-10-15 限定公開を外部から確認済み、2:40） |
 | ピッチデッキ（英語、PDF、13 枚） | 作成済み（2026-10-07） | docs/pitch_deck.pdf（生成：`cd deck && NODE_PATH=$PWD/node_modules node build_pitch.js` → `soffice --headless --convert-to pdf`） |
 | ドキュメント | README（英語）、docs/architecture.md、docs/model.md、提出フォーム用英文 docs/submission/form_answers.md | リポジトリ内 |
 | 問題ステートメントのカテゴリ | Manufacturing | — |
